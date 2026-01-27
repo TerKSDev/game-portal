@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//* For OAuth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+//* For OAuth
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+//* For OAuth
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+//* For OAuth
+model User {
+  //* OAuth
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  orbs  Int @default(0)
+
+  accounts Account[]
+  sessions Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //* System
+  userStatus UserStatus @default(Online)
+
+  wishlist WishlistItem[]
+  cart     CartItem[]
+  library  LibraryItem[]
+  reviews  Review[]
+  transactions Transaction[]
+}
+
+enum UserStatus {
+  Online
+  Offline
+  Idle
+  Do_Not_Disturb
+  Invisible
+}
+
+//* For System
+model WishlistItem {
+  //* System
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  //* Cache (API)
+  gameId  Int
+  gameUrl String
+
+  name    String
+  price   Decimal
+  image   String
+  addedAt DateTime @default(now())
+
+  @@unique([gameId, userId])
+}
+
+model CartItem {
+  //* System
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  //* Cache (API)
+  gameId  Int
+  gameUrl String
+
+  name    String
+  price   Decimal
+  image   String
+  addedAt DateTime @default(now())
+
+  @@unique([gameId, userId])
+}
+
+model LibraryItem {
+  //* System
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  //* Cache (API)
+  gameId  Int
+  gameUrl String
+
+  name           String
+  image          String
+  purchasedPrice Decimal
+  purchasedAt    DateTime @default(now())
+
+  playStatus GameStatus @default(Unplayed)
+
+  @@unique([gameId, userId])
+}
+
+enum GameStatus {
+  Unplayed
+  Playing
+  Completed
+}
+
+model Review {
+  //* System
+  id            String  @id @default(cuid())
+  rate          Int
+  comment       String
+  uploadedImage String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  //* Cache (API)
+  gameId  Int
+  gameUrl String
+
+  name  String
+  image String
+
+  @@unique([userId, gameId])
+}
+
+model Transaction {
+  id String @id @default(cuid())
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type TransactionType @default(Purchase)
+  amount Int
+  cashAmount Float?
+  description String?
+  status String
+  createdAt DateTime @default(now())
+}
+
+enum TransactionType {
+  Purchase
+  Top_Up
+  Refund
+}
+
+enum TransactionStatus {
+  Pending
+  Success
+  Failed
+}
