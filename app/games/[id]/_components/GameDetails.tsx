@@ -6,7 +6,11 @@ import Link from "next/link";
 
 import { GameDetailProps } from "@/lib/game";
 import { GetCleanDescription } from "./CleanDescription";
-import { AddToWishlistButton, AddToCartButton, PurchasedButton } from "./Button";
+import {
+  AddToWishlistButton,
+  AddToCartButton,
+  PurchasedButton,
+} from "./Button";
 
 type newProps = GameDetailProps & {
   wishlistInitialState: boolean;
@@ -32,83 +36,81 @@ export default function GameDetails({
   };
 
   return (
-    <div className="flex flex-row max-lg:flex-col flex-1 justify-center px-8 mt-21 py-12 font-mono gap-8">
-      <div className="flex flex-col flex-3 gap-8 w-full">
-        <div className="flex flex-row flex-1 max-lg:flex-col max-w-4xl w-full mx-auto bg-gray-900 p-4 px-5 rounded-md border-2 border-gray-600">
-          <div className="flex flex-1 flex-row gap-5 max-lg:flex-col">
-            <div className="flex aspect-video relative w-80 max-lg:w-full bg-amber-200">
+    <div className="flex flex-row max-lg:flex-col flex-1 justify-center max-w-7xl mx-auto gap-6 pb-12">
+      <div className="flex flex-col flex-3 gap-6 w-full">
+        <div className="flex flex-row flex-1 max-lg:flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-6 rounded-xl shadow-2xl">
+          <div className="flex flex-1 flex-row gap-6 max-lg:flex-col">
+            <div className="flex aspect-video relative w-80 max-lg:w-full bg-gray-800 rounded-xl overflow-hidden shadow-lg">
               <Image
                 src={game.background_image}
                 alt={game.name}
                 fill
-                className="w-full rounded border border-gray-400 object-cover"
+                className="w-full object-cover"
               />
             </div>
             <div className="flex flex-col justify-between w-full gap-4">
-              <div className="flex flex-col gap-2.5">
-                <div className="flex flex-row justify-between w-full">
-                  <p className="underline underline-offset-8 text-xl font-bold">
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-row justify-between items-start w-full gap-4">
+                  <h1 className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     {game.name}
-                  </p>
-                  <div className="flex flex-row items-center h-fit">
-                    <FaStar className="text-yellow-600 inline-block mr-2" />
-                    <div className="inline-block text-yellow-600 font-bold">
-                      {game.rating}
-                    </div>
+                  </h1>
+                  <div className="flex flex-row items-center bg-linear-to-br from-yellow-500 to-orange-500 text-white font-bold px-3 py-1.5 rounded-lg shadow-md shrink-0">
+                    <FaStar className="inline-block mr-1.5" size={14} />
+                    <span className="text-sm">{game.rating}</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-y-1 text-xs text-gray-300">
+                <div className="flex flex-col gap-y-1.5 text-sm text-gray-400">
                   <p>Released At: {game.released}</p>
                   <p>Updated At: {game.updated.split("T")[0]}</p>
                 </div>
               </div>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2 flex-wrap">
                 {game.genres.map((genre) => (
-                  <p
+                  <span
                     key={genre.id}
-                    className="bg-gray-950 text-xs px-3 p-1 rounded-full font-bold border border-gray-400"
+                    className="bg-linear-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 text-blue-300 text-xs px-3 py-1.5 rounded-full font-medium"
                   >
                     {genre.name}
-                  </p>
+                  </span>
                 ))}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col w-full bg-gray-900 p-6 pb-4 rounded-md border-2 border-gray-600 max-w-4xl mx-auto">
-          <h1 className="font-bold text-xl underline underline-offset-8 tracking-wider">
+        <div className="flex flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-6 rounded-xl shadow-2xl">
+          <h2 className="font-bold text-xl mb-4 text-blue-400">
             About This Game
-          </h1>
+          </h2>
           <article
             className="w-full p-0.5 py-4 prose prose-slate max-w-none text-gray-300 text-sm text-justify"
             dangerouslySetInnerHTML={{ __html: cleanedDescription }}
           ></article>
         </div>
 
-        <div className="flex flex-row max-lg:flex-col gap-4 max-w-4xl w-full mx-auto">
+        <div className="flex flex-row max-lg:flex-col gap-4 w-full">
           <div className="flex flex-1">
-            <div className="flex flex-col flex-1 bg-gray-900 p-4 pb-5 rounded-md border-2 border-gray-600 gap-y-4">
-              <h1 className="font-bold text-xl underline underline-offset-8 tracking-wider">
-                Publishers
-              </h1>
-              <div key={game.id} className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-col flex-1 bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 rounded-xl shadow-2xl gap-y-4">
+              <h2 className="font-bold text-xl text-blue-400">Publishers</h2>
+              <div key={game.id} className="flex flex-wrap gap-4 mt-1">
                 {game.publishers.map((publisher) => (
                   <div
                     key={publisher.id}
-                    className="flex flex-1 flex-row h-full gap-x-4 items-center"
+                    className="flex flex-1 flex-row gap-x-3 h-fit items-center min-w-50"
                   >
-                    <div className="flex items-center border border-gray-400 rounded relative w-24 aspect-video">
+                    <div className="flex items-center border border-gray-700 rounded-lg relative w-20 aspect-video overflow-hidden shadow-md bg-gray-800">
                       <Image
                         src={publisher.image_background}
                         alt={publisher.name}
                         fill
-                        className="rounded"
+                        className="object-cover"
                       />
                     </div>
                     <div>
-                      <p className="text-lg text-gray-300">{publisher.name}</p>
+                      <p className="text-base text-gray-300 font-medium">
+                        {publisher.name}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -116,41 +118,41 @@ export default function GameDetails({
             </div>
           </div>
           <div className="flex flex-1">
-            <div className="flex flex-col w-full bg-gray-900 p-4 pb-5 rounded-md border-2 border-gray-600 mx-auto gap-y-4">
-              <h1 className="font-bold text-xl underline underline-offset-8 tracking-wider">
-                Related Links
-              </h1>
-              <div className="flex flex-col gap-y-1.5 text-sm">
-                <div className="flex flex-row gap-x-2 text-xs">
-                  <p>Official Website:</p>
+            <div className="flex flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 rounded-xl shadow-2xl gap-y-4">
+              <h2 className="font-bold text-xl text-blue-400">Related Links</h2>
+              <div className="flex flex-col gap-y-3 text-sm">
+                <div className="flex flex-row gap-x-2 text-sm">
+                  <p className="text-gray-400">Official Website:</p>
                   <Link
                     key={game.id}
                     href={game.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline underline-offset-4"
+                    className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    {game.publishers.map((publisher) => publisher.name)}
+                    {game.publishers
+                      .map((publisher) => publisher.name)
+                      .join(" | ")}
                   </Link>
                 </div>
-                <div className="flex flex-row gap-x-2 text-xs">
-                  <p>Metacritic Page:</p>
+                <div className="flex flex-row gap-x-2 text-sm">
+                  <p className="text-gray-400">Metacritic Page:</p>
                   <Link
                     href={game.metacritic_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline underline-offset-4"
+                    className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     Metacritic
                   </Link>
                 </div>
-                <div className="flex flex-row gap-x-2 text-xs">
-                  <p>Source From:</p>
+                <div className="flex flex-row gap-x-2 text-sm">
+                  <p className="text-gray-400">Source From:</p>
                   <Link
                     href={"https://rawg.io/games/"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 underline underline-offset-4"
+                    className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     RAWG.io
                   </Link>
@@ -160,15 +162,26 @@ export default function GameDetails({
           </div>
         </div>
       </div>
-      <div className="flex flex-[1.5] bg-gray-900 py-6 px-4 rounded-md border-2 border-gray-600 h-fit flex-col gap-8  max-lg:hidden">
+      <div className="flex flex-[1.5] bg-gray-900/80 backdrop-blur-md border border-gray-700/50 py-6 px-5 rounded-xl shadow-2xl h-fit flex-col gap-6 max-lg:hidden">
         {price ? (
-          <div className="bg-gray-950 rounded border-2 border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-1 items-center">
-            <h2 className="font-bold text-lg">Price</h2>
-            <p>{price.final}</p>
-          </div>
+          <>
+            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-gray-300">Price</h2>
+              <p className="text-xl font-bold text-blue-400">{price.final}</p>
+            </div>
+            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-gray-300">Exchange</h2>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
+                <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                  {Number(price.final.replace("RM ", "")) * 100} Orbs
+                </p>
+              </div>
+            </div>
+          </>
         ) : (
-          <div className="flex flex-row gap-2 items-center justify-center px-2 py-1 bg-gray-950 rounded border-2 border-gray-700">
-            <p>Not Available Now !</p>
+          <div className="flex flex-row gap-2 items-center justify-center px-4 py-3 bg-gray-800/50 rounded-lg border border-gray-700">
+            <p className="text-gray-400">Not Available Now!</p>
           </div>
         )}
         {!libraryInitialState ? (
@@ -190,16 +203,27 @@ export default function GameDetails({
         )}
       </div>
 
-      <div className="flex-[1.5] bg-gray-900 p-4 py-8 rounded-md border-2 border-gray-600 h-fit flex-col gap-6 max-lg:flex hidden">
+      <div className="flex-[1.5] bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 py-6 rounded-xl shadow-2xl h-fit flex-col gap-8 max-lg:flex hidden">
         {price ? (
-          <div className="bg-gray-950 rounded border-2 border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-1 items-center">
-            <h2 className="font-bold text-lg">Price</h2>
-            <p>{price.final}</p>
-          </div>
+          <>
+            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-gray-300">Price</h2>
+              <p className="text-xl font-bold text-blue-400">{price.final}</p>
+            </div>
+            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-gray-300">Exchange</h2>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
+                <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                  {Number(price.final.replace("RM ", "")) * 100} Orbs
+                </p>
+              </div>
+            </div>
+          </>
         ) : (
-          <div className="flex flex-row gap-2 items-center justify-between px-2 py-1 bg-gray-950 rounded border-2 border-gray-700">
-            <h2 className="font-bold text-lg">Price</h2>
-            <p>Not Available Now !</p>
+          <div className="flex flex-row gap-2 items-center justify-between px-4 py-3 bg-gray-800/50 rounded-lg border border-gray-700">
+            <h2 className="font-semibold text-lg text-gray-300">Price</h2>
+            <p className="text-gray-400">Not Available Now!</p>
           </div>
         )}
 

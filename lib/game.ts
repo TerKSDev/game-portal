@@ -77,18 +77,20 @@ export async function GetGames(
 
 export async function GetGamePrice(
   gameName: string,
-  stores: any[],
+  stores?: any[],
   websiteUrl?: string,
 ): Promise<GamePriceProps | null> {
   try {
     let steamAppId: string | null = null;
 
-    const steamStore = stores.find(
-      (s: any) => s.store.slug === "steam" || s.store.id === 1,
-    );
-    if (steamStore && steamStore.url) {
-      const match = steamStore.url.match(/\/app\/(\d+)/);
-      if (match) steamAppId = match[1];
+    if (stores && stores.length > 0) {
+      const steamStore = stores.find(
+        (s: any) => s.store.slug === "steam" || s.store.id === 1,
+      );
+      if (steamStore && steamStore.url) {
+        const match = steamStore.url.match(/\/app\/(\d+)/);
+        if (match) steamAppId = match[1];
+      }
     }
 
     if (!steamAppId) {

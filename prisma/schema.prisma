@@ -82,12 +82,10 @@ model User {
 enum UserStatus {
   Online
   Offline
-  Idle
   Do_Not_Disturb
   Invisible
 }
 
-//* For System
 model WishlistItem {
   //* System
   id String @id @default(cuid())
@@ -100,7 +98,6 @@ model WishlistItem {
   gameUrl String
 
   name    String
-  price   Decimal
   image   String
   addedAt DateTime @default(now())
 
@@ -119,7 +116,6 @@ model CartItem {
   gameUrl String
 
   name    String
-  price   Decimal
   image   String
   addedAt DateTime @default(now())
 
@@ -139,7 +135,7 @@ model LibraryItem {
 
   name           String
   image          String
-  purchasedPrice Decimal
+  purchasedPrice String
   purchasedAt    DateTime @default(now())
 
   playStatus GameStatus @default(Unplayed)

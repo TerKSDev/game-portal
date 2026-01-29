@@ -4,19 +4,30 @@ import Image from "next/image";
 
 export default function LibraryItem({
   itemDetails,
+  isSelected = false,
 }: {
   itemDetails: LibraryProps;
+  isSelected?: boolean;
 }) {
   return (
-    <div className="flex flex-row items-center gap-2 p-2 px-4 text-xs truncate line-clamp-1 min-w-full">
-      <Image
-        src={itemDetails.image}
-        alt={itemDetails.name}
-        width={30}
-        height={30}
-        className="aspect-video rounded-lg object-cover"
-      />
-      <p>{itemDetails.name}</p>
+    <div className="flex flex-row items-center gap-3 p-3 px-6 text-sm min-w-full group">
+      <div className="relative w-16 h-9 shrink-0 rounded-lg overflow-hidden shadow-md border border-gray-700/50">
+        <Image
+          src={itemDetails.image}
+          alt={itemDetails.name}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <p
+        className={`line-clamp-2 transition-colors ${
+          isSelected
+            ? "text-blue-300 font-medium"
+            : "text-gray-300 group-hover:text-white"
+        }`}
+      >
+        {itemDetails.name}
+      </p>
     </div>
   );
 }

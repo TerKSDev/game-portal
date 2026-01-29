@@ -20,37 +20,35 @@ export default function WishlistItem({ item }: WishlistItemComponentProps) {
   };
 
   return (
-    <div className="flex flex-col w-full bg-gray-900 border-2 border-gray-800 rounded-lg p-2 font-mono max-w-4xl">
-      <div className="flex flex-row lg:justify-between max-lg:flex-col gap-4\">
-        <div className="flex flex-row max-lg:flex-col gap-x-4 gap-y-2">
-          <div className="w-52 aspect-video relative">
+    <div className="flex flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 rounded-xl p-5 shadow-lg hover:border-gray-600/50 transition-all">
+      <div className="flex flex-row lg:justify-between max-lg:flex-col gap-6">
+        <div className="flex flex-row max-lg:flex-col gap-x-5 gap-y-4 flex-1">
+          <div className="w-56 max-lg:w-full aspect-video relative rounded-lg overflow-hidden shadow-md border border-gray-700/50 shrink-0">
             <Image
               src={item.image}
-              alt="Wishlist Item"
+              alt={item.name}
               fill
-              className="rounded border border-gray-800 object-cover"
+              className="object-cover"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3 flex-1">
             <Link
               href={`${PATHS.DETAILS}/${item.gameId}`}
-              className="text-xl font-bold hover:underline hover:underline-offset-8"
+              className="text-xl font-semibold hover:text-blue-400 transition-colors line-clamp-2"
             >
               {item.name}
             </Link>
-            <div className="flex flex-col gap-1">
-              <p className="text-xs text-gray-300">
-                Price: <span className="font-normal">RM {item.price}</span>
-              </p>
-              <p className="text-xs text-gray-300">
-                Added on: <span className="font-normal">{item.addedAt}</span>
-              </p>
+            <div className="flex flex-col gap-2">
+              <div className="text-2xl font-bold text-blue-400">
+                {item.price}
+              </div>
+              <p className="text-sm text-gray-400">Added on {item.addedAt}</p>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-row gap-5 min-h-full items-end p-1 px-2 text-nowrap max-lg:w-full max-lg:justify-end">
+        <div className="flex flex-row gap-3 items-end max-lg:justify-end">
           {!item.isAddedToCart && (
             <AddToCartButton
               key={`Add: ${item.id}`}

@@ -9,6 +9,7 @@ export type LoginState =
   | {
       error?: string;
       success?: boolean;
+      username?: string;
     }
   | undefined;
 
@@ -20,7 +21,7 @@ export async function login(
   const password = formData.get("password") as string;
 
   if (!username || !password) {
-    return { error: "All fields are required." };
+    return { error: "All fields are required.", username };
   }
 
   try {
@@ -35,10 +36,11 @@ export async function login(
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid account name or password." };
+          return { error: "Invalid account name or password.", username };
         default:
           return {
             error: "An error occurred during login.",
+            username,
           };
       }
     }

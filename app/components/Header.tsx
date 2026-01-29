@@ -3,19 +3,18 @@
 import { IoGameController } from "react-icons/io5";
 import { IoMdMenu } from "react-icons/io";
 import { useState, Suspense } from "react";
+import Link from "next/link";
 
 import Navigator from "./Navigator";
 import SideBar from "./SideBar";
 import SearchBar from "./SearchBar";
+import { PATHS } from "@/app/_config/routes";
 
 export default function Header() {
   const [showSideBar, setShowSideBar] = useState(false);
 
   return (
-    <header
-      key=""
-      className="fixed flex flex-row justify-between items-center w-full bg-gray-900 p-3 px-8 h-24 max-lg:gap-x-8 lg:gap-x-16 z-10 shadow-gray-950 shadow-[0_5px_10px] box-border"
-    >
+    <header className="fixed flex flex-row justify-between items-center w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-700/50 p-3 px-8 h-24 max-lg:gap-x-8 lg:gap-x-16 z-50 shadow-2xl shadow-black/50 box-border">
       <div className="flex flex-row gap-x-20 items-center max-md:gap-x-8">
         <button
           onClick={() => setShowSideBar(true)}
@@ -23,12 +22,18 @@ export default function Header() {
         >
           <IoMdMenu size={26} />
         </button>
-        <div className="flex flex-row font-mono font-bold items-end gap-x-3 cursor-pointer max-lg:hidden text-nowrap">
-          <IoGameController size={44} />
-          <h1 className="tracking-wider text-shadow-white text-shadow-[0px_3px_5px] text-2xl mb-0.5">
+        <Link
+          href={PATHS.STORE}
+          className="flex flex-row font-bold items-end gap-x-3 cursor-pointer max-lg:hidden text-nowrap group"
+        >
+          <IoGameController
+            size={44}
+            className="text-blue-500 group-hover:text-blue-400 transition-colors"
+          />
+          <h1 className="tracking-wider bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-2xl mb-0.5 drop-shadow-lg">
             GAME PORTAL
           </h1>
-        </div>
+        </Link>
 
         <Navigator />
 

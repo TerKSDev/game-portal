@@ -43,7 +43,6 @@ export async function AddToCart({ itemDetails }: AddToCartProps) {
         gameId: itemDetails.gameId,
         gameUrl: itemDetails.gameUrl,
         name: itemDetails.name,
-        price: itemDetails.price,
         image: itemDetails.image,
       },
     });

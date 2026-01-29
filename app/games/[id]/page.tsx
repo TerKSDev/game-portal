@@ -54,7 +54,7 @@ export default async function Game({ params }: GameDetailsProps) {
   }
 
   return (
-    <div className="w-full min-h-screen text-white font-mono">
+    <div className="w-full min-h-screen text-white pt-32 px-4 sm:px-6 lg:px-8">
       <GameDetails
         key={`${gameData.game.id}-${gameData.game.name}-${gameData.game.publisher} `}
         game={gameData.game}

@@ -37,7 +37,6 @@ export async function AddToWishlist({ game }: AddProps) {
           gameId: game.gameId,
           gameUrl: game.gameUrl,
           name: game.name,
-          price: game.price.replace("RM ", ""),
           image: game.image,
         },
       });
@@ -77,7 +76,6 @@ export async function AddToCart({ game }: AddProps) {
         gameId: game.gameId,
         gameUrl: game.gameUrl,
         name: game.name,
-        price: game.price.replace("RM ", ""),
         image: game.image,
       },
     });

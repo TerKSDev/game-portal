@@ -43,27 +43,29 @@ export default function GameList({ game, query = "" }: GameListProps) {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="grid max-sm:flex max-sm:flex-col md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-34 mx-auto gap-7">
+    <div className="flex flex-col w-full max-w-7xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mx-auto w-full">
         {games.map((game) => (
           <GameCard key={`${game.id}-${game.name}`} game={game} />
         ))}
       </div>
 
-      <div className="flex flex-row w-full items-center font-bold text-lg gap-x-5 text-gray-300 group py-12 font-mono">
-        <div className="border-t-2 flex flex-1 h-0 border-gray-400"></div>
+      <div className="flex flex-row w-full items-center text-base gap-x-6 text-gray-400 py-16">
+        <div className="border-t flex flex-1 h-0 border-gray-700"></div>
         {pageCount <= 3 ? (
           <button
             disabled={loading}
-            className="hover:underline hover:underline-offset-4 hover:text-white"
+            className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-gray-700 disabled:to-gray-600 disabled:cursor-not-wait text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 disabled:shadow-none"
             onClick={handleMoreGames}
           >
-            {loading ? "Loading..." : "Load More"}
+            {loading ? "Loading..." : "Load More Games"}
           </button>
         ) : (
-          <p>No game you want? Try searching for something else.</p>
+          <p className="text-center px-4">
+            No game you want? Try searching for something else.
+          </p>
         )}
-        <div className="border-t-2 flex flex-1 h-0 border-gray-400"></div>
+        <div className="border-t flex flex-1 h-0 border-gray-700"></div>
       </div>
     </div>
   );

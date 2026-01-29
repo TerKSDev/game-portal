@@ -2,8 +2,11 @@
 @plugin '@tailwindcss/typography';
 
 :root {
-  --background: var(--color-sky-950);
-  --foreground: #FFFFFF;
+  --background: #0a0e27;
+  --background-secondary: #0f172a;
+  --foreground: #ffffff;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
 }
 
 @theme inline {
@@ -14,9 +17,15 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #0a0e27 0%, #1e293b 100%);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,4 +35,32 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }

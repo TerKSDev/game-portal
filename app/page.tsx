@@ -26,7 +26,7 @@ export default async function Home(props: {
   games = await GetGames(1, 24, query);
 
   return (
-    <main className="flex flex-1 w-screen h-full min-h-screen  justify-center">
+    <main className="flex flex-1 w-screen h-full min-h-screen justify-center pt-32 px-4 sm:px-6 lg:px-8">
       <GameList game={games} query={query} />
     </main>
   );

@@ -35,8 +35,6 @@ export default function RootLayout({
           <main className="w-screen h-full min-h-screen">
             { children }
           </main>
-
-
         </SessionComponent>
       </body>
     </html>

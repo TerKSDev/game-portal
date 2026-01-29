@@ -1,6 +1,6 @@
 'use client";';
 
-import { RemoveFromCart } from "./buttonOnClick";
+import { RemoveFromCart, HandleCheckout } from "./buttonOnClick";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/app/_config/routes";
 
@@ -17,20 +17,103 @@ export function RemoveButton({ id }: { id: string }) {
   return (
     <button
       onClick={handleRemove}
-      className="text-gray-300 text-xs p-1 px-2 rounded self-end hover:text-gray-400 hover:underline hover:underline-offset-4 transition"
+      className="text-red-400 hover:text-red-300 text-sm px-3 py-1.5 rounded-lg hover:bg-red-500/10 transition-all self-start border border-transparent hover:border-red-500/30 font-medium"
     >
       Remove
     </button>
   );
 }
 
-export function CheckoutButton() {
+export function CheckoutButton({
+  finalPrice,
+  isUseOrbs,
+  orbsUsage = 0,
+}: {
+  finalPrice: number;
+  isUseOrbs: boolean;
+  orbsUsage?: number;
+}) {
   const router = useRouter();
+
+  const handleCheckout = async () => {
+    try {
+      // Debug log
+      console.log("CheckoutButton received:", {
+        finalPrice,
+        isUseOrbs,
+        orbsUsage,
+      });
+
+      // Validate inputs
+      if (
+        typeof finalPrice === "undefined" ||
+        isNaN(finalPrice) ||
+        finalPrice < 0
+      ) {
+        console.error("Invalid finalPrice:", finalPrice);
+        alert(`Invalid price: ${finalPrice}. Please refresh and try again.`);
+        return;
+      }
+
+      // Use orbs for full payment
+      if (finalPrice === 0 && isUseOrbs) {
+        if (orbsUsage <= 0) {
+          alert("Invalid Orbs usage amount.");
+          return;
+        }
+
+        const result = await HandleCheckout(orbsUsage);
+
+        if (result.success) {
+          router.push(`${PATHS.PAYMENT_SUCCESS}?paid_with_orbs=true`);
+          return;
+        } else {
+          alert(result.message || "Failed to process payment with Orbs.");
+          return;
+        }
+      }
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          totalPrice: parseFloat(finalPrice.toFixed(2)),
+          orbsUsed: isUseOrbs ? orbsUsage : 0,
+        }),
+      });
+
+      if (res.status === 401) {
+        router.push(PATHS.LOGIN);
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("Checkout error:", data);
+        alert(
+          `Failed to create checkout session: ${data.details || data.error}`,
+        );
+        return;
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Failed to create checkout session.");
+      }
+    } catch (error) {
+      console.error("Checkout request error:", error);
+      alert("Something went wrong.");
+    }
+  };
 
   return (
     <button
-      onClick={() => router.push(PATHS.CHECKOUT)}
-      className="bg-blue-600 text-white font-bold p-2 rounded hover:bg-blue-700 transition"
+      onClick={() => handleCheckout()}
+      className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 w-full"
     >
       Proceed to Checkout
     </button>

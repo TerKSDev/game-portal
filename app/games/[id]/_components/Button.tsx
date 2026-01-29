@@ -35,9 +35,13 @@ export function AddToCartButton({ game, initialState = false }: ButtonProps) {
     <button
       type="button"
       onClick={() => handleWishlistButtonClick()}
-      className={`flex flex-row gap-x-3 w-full py-2 rounded justify-center items-center text-sm ${isCartAdded ? "bg-gray-700 hover:bg-gray-600" : "bg-blue-500 hover:bg-blue-600"}`}
+      className={`flex flex-row gap-x-3 w-full py-3 rounded-lg justify-center items-center text-sm font-semibold transition-all duration-300 shadow-lg ${
+        isCartAdded
+          ? "bg-gray-700 hover:bg-gray-600 border border-gray-600"
+          : "bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 hover:shadow-blue-500/50"
+      }`}
     >
-      <FaShoppingCart />
+      <FaShoppingCart size={16} />
       <p>{isCartAdded ? "Added" : "Add To Cart"}</p>
     </button>
   );
@@ -71,9 +75,17 @@ export function AddToWishlistButton({
       onClick={() => {
         handleWishlistButtonClick();
       }}
-      className={`flex flex-row  py-2 items-center justify-center rounded w-full gap-x-3 text-sm ${isWishlistAdded ? "bg-gray-700 hover:bg-gray-600" : "bg-yellow-500 hover:bg-yellow-600"}`}
+      className={`flex flex-row py-3 items-center justify-center rounded-lg w-full gap-x-3 text-sm font-semibold transition-all duration-300 shadow-lg ${
+        isWishlistAdded
+          ? "bg-gray-700 hover:bg-gray-600 border border-gray-600"
+          : "bg-linear-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 hover:shadow-yellow-500/50"
+      }`}
     >
-      {isWishlistAdded ? <TiStarFullOutline /> : <TiStarOutline />}
+      {isWishlistAdded ? (
+        <TiStarFullOutline size={18} />
+      ) : (
+        <TiStarOutline size={18} />
+      )}
       <p>{isWishlistAdded ? "Added" : "Add To Wishlist"}</p>
     </button>
   );
@@ -85,9 +97,9 @@ export function PurchasedButton() {
   return (
     <button
       onClick={() => router.push(PATHS.LIBRARY)}
-      className="w-full bg-gray-700 hover:bg-gray-600 flex flex-row gap-x-3 py-2 rounded justify-center items-center text-sm"
+      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 border border-green-500/50 flex flex-row gap-x-3 py-3 rounded-lg justify-center items-center text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50"
     >
-      <BiSolidPurchaseTag />
+      <BiSolidPurchaseTag size={18} />
       <p>Purchased</p>
     </button>
   );

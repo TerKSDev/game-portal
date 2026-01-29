@@ -8,8 +8,8 @@ export const PATHS = {
   LOGIN: "/login",
   REGISTER: "/register",
   DETAILS: "/games",
-  PAYMENT: "/payment",
   CHECKOUT: "/checkout",
+  PAYMENT_SUCCESS: "/cart/payment-success",
 };
 
 //* 定義需要什麽變量信息
@@ -53,11 +53,11 @@ export const ROUTES: RouteConfig[] = [
     name: "Details",
   },
   {
-    path: PATHS.PAYMENT,
-    name: "Payment",
-  },
-  {
     path: PATHS.CHECKOUT,
     name: "Checkout",
+  },
+  {
+    path: PATHS.PAYMENT_SUCCESS,
+    name: "Payment Success",
   },
 ];

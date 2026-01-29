@@ -21,12 +21,12 @@ export default function SearchBar() {
 
   return (
     <div className="flex flex-1 h-full items-center lg:max-w-124">
-      <div className="flex flex-row w-full h-fit bg-gray-700 rounded items-center pl-3 border-2 border-transparent focus-within:border-sky-800 transition-colors">
-        <IoIosSearch size={18} />
+      <div className="flex flex-row w-full h-fit bg-gray-800/80 backdrop-blur-sm rounded-lg items-center pl-4 border border-gray-700 focus-within:border-blue-500 focus-within:shadow-lg focus-within:shadow-blue-500/20 transition-all duration-300">
+        <IoIosSearch size={20} className="text-gray-400" />
         <input
           type="text"
-          className="flex flex-1 px-3 py-2 text-sm outline-none bg-transparent"
-          placeholder="Search in store..."
+          className="flex flex-1 px-3 py-2.5 text-sm outline-none bg-transparent placeholder:text-gray-500"
+          placeholder="Search games..."
           onChange={(e) => handleSearch(e.target.value)}
           defaultValue={searchParams.get("query")?.toString()}
         />
