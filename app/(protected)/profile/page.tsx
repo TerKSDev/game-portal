@@ -8,6 +8,11 @@ import Header from "@/app/components/Header";
 import { id } from "zod/locales";
 import { userAgent } from "next/server";
 
+export const metadata = {
+  title: "Profile",
+  description: "Manage your Game Portal account settings and preferences.",
+};
+
 export default async function Profile() {
   const session = await auth();
 

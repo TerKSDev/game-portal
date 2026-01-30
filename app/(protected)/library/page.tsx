@@ -7,6 +7,11 @@ import ItemDetails from "./_components/ItemDetails";
 import Link from "next/link";
 import PaymentSuccess from "../cart/payment-success/PaymentSuccess";
 
+export const metadata = {
+  title: "Library",
+  description: "Access all your purchased games in one place.",
+};
+
 export interface LibraryProps {
   id: string;
   userId: string;

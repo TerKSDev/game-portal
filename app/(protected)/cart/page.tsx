@@ -8,6 +8,11 @@ import { GetGamePrice } from "@/lib/game";
 import { FaShoppingCart } from "react-icons/fa";
 import prisma from "@/lib/prisma";
 
+export const metadata = {
+  title: "Shopping Cart",
+  description: "Review your selected games and complete your purchase.",
+};
+
 export default async function Cart() {
   const session = await auth();
 

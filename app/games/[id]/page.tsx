@@ -4,9 +4,58 @@ import prisma from "@/lib/prisma";
 import { GetGameDetails } from "@/lib/game";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/actions/auth";
+import type { Metadata } from "next";
 
 export interface GameDetailsProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: GameDetailsProps): Promise<Metadata> {
+  const { id } = await params;
+  const gameData = await GetGameDetails(id);
+
+  if (!gameData) {
+    return {
+      title: "Game Not Found",
+      description: "The requested game could not be found.",
+    };
+  }
+
+  const game = gameData.game;
+  const description =
+    game.short_description ||
+    game.description ||
+    "Discover this amazing game on Game Portal.";
+  const truncatedDescription =
+    description.length > 160
+      ? description.substring(0, 157) + "..."
+      : description;
+
+  return {
+    title: game.name,
+    description: truncatedDescription,
+    openGraph: {
+      title: `${game.name} - Game Portal`,
+      description: truncatedDescription,
+      images: [
+        {
+          url: game.header_image || "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: game.name,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${game.name} - Game Portal`,
+      description: truncatedDescription,
+      images: [game.header_image || "/og-image.png"],
+    },
+  };
 }
 
 export default async function Game({ params }: GameDetailsProps) {

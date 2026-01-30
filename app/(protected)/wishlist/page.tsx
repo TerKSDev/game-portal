@@ -7,6 +7,11 @@ import { redirect } from "next/navigation";
 import { FaStar } from "react-icons/fa";
 import { GetGamePrice } from "@/lib/game";
 
+export const metadata = {
+  title: "Wishlist",
+  description: "Your saved games and upcoming purchases.",
+};
+
 export interface WishlistItemProps {
   id: string;
   name: string;

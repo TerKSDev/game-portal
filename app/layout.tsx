@@ -16,15 +16,68 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Game Portal",
+  title: {
+    default: "Game Portal - Your Ultimate Gaming Marketplace",
+    template: "%s | Game Portal",
+  },
   description:
-    "A modern game store featuring a virtual points system, secure Touch 'n Go payment integration, and real-time game discovery.",
+    "Discover and purchase the latest games at Game Portal. Features virtual points system, secure payment integration, wishlist, library management, and instant game delivery.",
+  keywords: [
+    "game store",
+    "buy games",
+    "gaming marketplace",
+    "game portal",
+    "digital games",
+    "game library",
+    "wishlist",
+    "game deals",
+  ],
+  authors: [{ name: "TerKSDev", url: "https://github.com/TerkSDev" }],
+  creator: "TerKSDev",
+  publisher: "TerKSDev",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://gamestore.quadrawebs.com"),
   openGraph: {
-    title: "Game Portal",
-    description: "The best place to find your next adventure...",
+    title: "Game Portal - Your Ultimate Gaming Marketplace",
+    description:
+      "Discover thousands of games. Build your library. Start your adventure.",
     siteName: "Game Portal",
-    images: ["/og-image.png"],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Game Portal - Your Gaming Marketplace",
+      },
+    ],
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Game Portal - Your Ultimate Gaming Marketplace",
+    description:
+      "Discover thousands of games. Build your library. Start your adventure.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    // google: "your-google-verification-code",
+    // yandex: "your-yandex-verification-code",
   },
 };
 
