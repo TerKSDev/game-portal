@@ -22,15 +22,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Game Portal",
     description: "The best place to find your next adventure...",
+    url: "https://game-portal-gamma.vercel.app",
+    siteName: "Game Portal",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://game-portal-gamma.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Game Portal Open Graph Image",
         type: "image/png",
-      }
+      },
     ],
+    type: "website",
   },
 };
 
