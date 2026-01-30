@@ -192,9 +192,7 @@ export default function ProfileForm({ userData, libraryData }: ProfileProps) {
                   <div className="flex flex-row items-center pl-0">
                     <div
                       className={`w-2.5 h-2.5 rounded-full animate-pulse
-                        ${currentStatus !== "Online" && currentStatus !== "Offline" && "hidden"}
-                      ${currentStatus === "Online" && "bg-green-400 flex"}
-                      ${currentStatus === "Offline" && "bg-gray-500 flex"}`}
+                      ${currentStatus === "Online" ? "bg-green-400 flex" : "hidden"}`}
                     ></div>
 
                     {currentStatus === "Do_Not_Disturb" && (
@@ -223,21 +221,19 @@ export default function ProfileForm({ userData, libraryData }: ProfileProps) {
 
                 {editStatusOpen && (
                   <div className="mt-2 bg-gray-800/95 border border-gray-700 rounded-lg shadow-lg w-40 absolute z-10">
-                    {["Online", "Offline", "Do_Not_Disturb", "Invisible"].map(
-                      (status) => (
-                        <button
-                          key={status}
-                          onClick={async () => {
-                            setCurrentStatus(status);
-                            setEditStatusOpen(false);
-                            await handleChangeStatus(status);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-t-lg last:rounded-b-lg transition-colors flex items-center gap-x-2 text-white"
-                        >
-                          {status.replaceAll("_", " ")}
-                        </button>
-                      ),
-                    )}
+                    {["Online", "Do_Not_Disturb", "Invisible"].map((status) => (
+                      <button
+                        key={status}
+                        onClick={async () => {
+                          setCurrentStatus(status);
+                          setEditStatusOpen(false);
+                          await handleChangeStatus(status);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-t-lg last:rounded-b-lg transition-colors flex items-center gap-x-2 text-white"
+                      >
+                        {status.replaceAll("_", " ")}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>

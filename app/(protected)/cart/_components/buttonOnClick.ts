@@ -74,18 +74,42 @@ export async function HandleCheckout(orbsUsage: number) {
         },
       });
 
+      // Calculate orbs per item
+      const totalOrbs = orbsUsage;
+      const itemCount = cartItems.length;
+      const orbsPerItem = Math.floor(totalOrbs / itemCount);
+
       // Add items to library
-      for (const item of cartItems) {
-        await tx.libraryItem.create({
-          data: {
+      for (let i = 0; i < cartItems.length; i++) {
+        const item = cartItems[i];
+
+        // Check if game already exists in library
+        const existingItem = await tx.libraryItem.findFirst({
+          where: {
             userId: userId,
             gameId: item.gameId,
-            gameUrl: item.gameUrl,
-            name: item.name,
-            image: item.image,
-            purchasedPrice: "Paid with Orbs",
           },
         });
+
+        // Calculate orbs for this item (give remainder to last item)
+        const isLastItem = i === cartItems.length - 1;
+        const itemOrbs = isLastItem
+          ? totalOrbs - orbsPerItem * (itemCount - 1)
+          : orbsPerItem;
+
+        // Only add if not already in library
+        if (!existingItem) {
+          await tx.libraryItem.create({
+            data: {
+              userId: userId,
+              gameId: item.gameId,
+              gameUrl: item.gameUrl,
+              name: item.name,
+              image: item.image,
+              purchasedPrice: `${itemOrbs.toLocaleString()} Orbs`,
+            },
+          });
+        }
       }
 
       // Remove from wishlist

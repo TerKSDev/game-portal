@@ -47,7 +47,7 @@ export default function ItemDetails({
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs">Purchase Price</span>
                 <span className="font-medium text-blue-400">
-                  {itemDetails.purchasedPrice}
+                  {itemDetails.purchasedPrice.replace("+", "|")}
                 </span>
               </div>
             </div>

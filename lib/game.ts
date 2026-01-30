@@ -81,80 +81,90 @@ export async function GetGamePrice(
   websiteUrl?: string,
 ): Promise<GamePriceProps | null> {
   try {
-    let steamAppId: string | null = null;
+    // Add timeout to prevent hanging in serverless environment
+    const timeout = new Promise<null>((resolve) => {
+      setTimeout(() => resolve(null), 5000); // 5 second timeout
+    });
 
-    if (stores && stores.length > 0) {
-      const steamStore = stores.find(
-        (s: any) => s.store.slug === "steam" || s.store.id === 1,
-      );
-      if (steamStore && steamStore.url) {
-        const match = steamStore.url.match(/\/app\/(\d+)/);
-        if (match) steamAppId = match[1];
-      }
-    }
+    const pricePromise = (async () => {
+      let steamAppId: string | null = null;
 
-    if (!steamAppId) {
-      try {
-        const searchRes = await axios.get(
-          "https://store.steampowered.com/api/storesearch/",
-          {
-            params: {
-              term: gameName,
-              l: "english",
-              cc: "my",
-            },
-          },
+      if (stores && stores.length > 0) {
+        const steamStore = stores.find(
+          (s: any) => s.store.slug === "steam" || s.store.id === 1,
         );
-
-        if (
-          searchRes.data &&
-          searchRes.data.items &&
-          searchRes.data.items.length > 0
-        ) {
-          steamAppId = searchRes.data.items[0].id;
+        if (steamStore && steamStore.url) {
+          const match = steamStore.url.match(/\/app\/(\d+)/);
+          if (match) steamAppId = match[1];
         }
-      } catch (searchError) {
-        console.error("Failed to search Steam:", searchError);
       }
-    }
 
-    if (!steamAppId) {
-      return null;
-    }
+      if (!steamAppId) {
+        try {
+          const searchRes = await axios.get(
+            "https://store.steampowered.com/api/storesearch/",
+            {
+              params: {
+                term: gameName,
+                l: "english",
+                cc: "my",
+              },
+            },
+          );
 
-    const steamRES = await axios.get(
-      `https://store.steampowered.com/api/appdetails`,
-      {
-        params: {
-          appids: steamAppId,
-          cc: "my",
+          if (
+            searchRes.data &&
+            searchRes.data.items &&
+            searchRes.data.items.length > 0
+          ) {
+            steamAppId = searchRes.data.items[0].id;
+          }
+        } catch (searchError) {
+          console.error("Failed to search Steam:", searchError);
+        }
+      }
+
+      if (!steamAppId) {
+        return null;
+      }
+
+      const steamRES = await axios.get(
+        `https://store.steampowered.com/api/appdetails`,
+        {
+          params: {
+            appids: steamAppId,
+            cc: "my",
+          },
         },
-      },
-    );
+      );
 
-    const steamData = steamRES.data;
-    const gameDetails = steamData[steamAppId];
+      const steamData = steamRES.data;
+      const gameDetails = steamData[steamAppId];
 
-    if (!gameDetails || !gameDetails.success) return null;
+      if (!gameDetails || !gameDetails.success) return null;
 
-    if (gameDetails.data.is_free) {
+      if (gameDetails.data.is_free) {
+        return {
+          original: "Free",
+          final: "Free",
+          discount: 0,
+          currency: "MYR",
+        };
+      }
+
+      const priceOverview = gameDetails.data.price_overview;
+      if (!priceOverview) return null;
+
       return {
-        original: "Free",
-        final: "Free",
-        discount: 0,
-        currency: "MYR",
+        original: `RM ${(priceOverview.initial / 100).toFixed(2)}`,
+        final: `RM ${(priceOverview.final / 100).toFixed(2)}`,
+        discount: priceOverview.discount_percent,
+        currency: priceOverview.currency,
       };
-    }
+    })();
 
-    const priceOverview = gameDetails.data.price_overview;
-    if (!priceOverview) return null;
-
-    return {
-      original: `RM ${(priceOverview.initial / 100).toFixed(2)}`,
-      final: `RM ${(priceOverview.final / 100).toFixed(2)}`,
-      discount: priceOverview.discount_percent,
-      currency: priceOverview.currency,
-    };
+    // Race between timeout and actual API call
+    return await Promise.race([pricePromise, timeout]);
   } catch (error) {
     console.error("Error in GetGamePrice:", error);
     return null;

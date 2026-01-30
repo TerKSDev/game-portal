@@ -55,7 +55,7 @@ export default function SummaryCard({
         </div>
 
         {/* Orbs Balance */}
-        <div className="bg-linear-to-r from-yellow-600/10 to-orange-600/10 border border-yellow-600/30 rounded-lg p-3">
+        <div className="bg-linear-to-r from-yellow-600/10 to-orange-600/10 border border-yellow-600/30 rounded-lg p-3 mb-2">
           <div className="flex flex-row justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>

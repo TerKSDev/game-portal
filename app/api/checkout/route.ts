@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { auth } from "@/lib/actions/auth";
+import prisma from "@/lib/prisma";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-01-28.clover",
@@ -35,6 +36,24 @@ export async function POST(req: Request) {
         { error: "Invalid total price", details: `Received: ${totalPrice}` },
         { status: 400 },
       );
+    }
+
+    // Verify user has enough Orbs if they want to use them
+    if (orbsUsed > 0) {
+      const user = await prisma.user.findUnique({
+        where: { id: nextauthSession.user.id },
+        select: { orbs: true },
+      });
+
+      if (!user || user.orbs < orbsUsed) {
+        return NextResponse.json(
+          {
+            error: "Insufficient Orbs",
+            details: `You need ${orbsUsed} Orbs but only have ${user?.orbs || 0}`,
+          },
+          { status: 400 },
+        );
+      }
     }
 
     const origin = req.headers.get("origin") || "http://localhost:3000";

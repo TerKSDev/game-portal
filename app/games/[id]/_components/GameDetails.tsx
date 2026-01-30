@@ -174,7 +174,9 @@ export default function GameDetails({
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
                 <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                  {Number(price.final.replace("RM ", "")) * 100} Orbs
+                  {price.final.toLowerCase() === "free"
+                    ? "0 Orbs"
+                    : `${Number(price.final.replace(/[^\d.]/g, "")) * 100} Orbs`}
                 </p>
               </div>
             </div>
@@ -215,7 +217,9 @@ export default function GameDetails({
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
                 <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                  {Number(price.final.replace("RM ", "")) * 100} Orbs
+                  {price.final.toLowerCase() === "free"
+                    ? "0 Orbs"
+                    : `${Number(price.final.replace(/[^\d.]/g, "")) * 100} Orbs`}
                 </p>
               </div>
             </div>

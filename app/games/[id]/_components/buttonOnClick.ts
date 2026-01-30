@@ -83,10 +83,6 @@ export async function AddToCart({ game }: AddProps) {
     return { success: true };
   }
 
-  await prisma.wishlistItem.delete({
-    where: {
-      id: cart.id,
-    },
-  });
-  return { success: false };
+  // Item already in cart
+  return { success: false, message: "Item already in cart" };
 }
