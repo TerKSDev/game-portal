@@ -14,7 +14,7 @@ export default function Header() {
   const [showSideBar, setShowSideBar] = useState(false);
 
   return (
-    <header className="fixed flex flex-row justify-between items-center w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-700/50 p-3 px-8 h-24 max-lg:gap-x-8 lg:gap-x-16 z-50 shadow-2xl shadow-black/50 box-border">
+    <header className="fixed flex flex-row justify-between items-center w-full bg-gray-900/95 backdrop-blur-md border-b border-gray-700/50 p-2 px-3 sm:p-3 sm:px-8 h-20 sm:h-24 max-lg:gap-x-4 lg:gap-x-16 z-50 shadow-2xl shadow-black/50 box-border">
       <div className="flex flex-row gap-x-20 items-center max-md:gap-x-8">
         <button
           onClick={() => setShowSideBar(true)}
@@ -38,8 +38,8 @@ export default function Header() {
         <Navigator />
 
         {showSideBar && (
-          <div className="fixed top-0 left-0 flex flex-row">
-            <SideBar />
+          <div className="fixed top-0 left-0 flex flex-row z-[9999]">
+            <SideBar onClose={() => setShowSideBar(false)} />
 
             <div
               className="bg-black z-20 w-screen h-screen opacity-35"

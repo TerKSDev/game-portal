@@ -55,23 +55,71 @@ export interface RAWGResponse {
   results: GameProps[];
 }
 
+export interface GameFilters {
+  genres?: string;
+  platforms?: string;
+  ordering?: string;
+  dates?: string;
+  stores?: string;
+}
+
 export async function GetGames(
   page: number = 1,
   pageSize: number = 24,
   query?: string,
+  searchType?: "name" | "publisher",
+  filters?: GameFilters,
 ) {
   const apiKey = process.env.RAWG_API_KEY;
   if (!apiKey) throw new Error("Error: API Key not found.");
 
-  const url = query
-    ? `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${pageSize}&search=${query}`
-    : `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${pageSize}`;
+  let url = `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${pageSize}`;
+
+  if (query) {
+    if (searchType === "publisher") {
+      // For publisher search, convert to slug format (lowercase with hyphens)
+      // e.g., "Nintendo" -> "nintendo", "Electronic Arts" -> "electronic-arts"
+      const publisherSlug = query.toLowerCase().replace(/\s+/g, "-");
+      url += `&publishers=${encodeURIComponent(publisherSlug)}`;
+    } else {
+      // Default search by game name
+      url += `&search=${encodeURIComponent(query)}`;
+    }
+  }
+
+  // Apply filters
+  if (filters) {
+    if (filters.genres) {
+      url += `&genres=${encodeURIComponent(filters.genres)}`;
+    }
+    if (filters.platforms) {
+      url += `&platforms=${encodeURIComponent(filters.platforms)}`;
+    }
+    if (filters.ordering) {
+      url += `&ordering=${encodeURIComponent(filters.ordering)}`;
+    }
+    if (filters.dates) {
+      url += `&dates=${encodeURIComponent(filters.dates)}`;
+    }
+    if (filters.stores) {
+      url += `&stores=${encodeURIComponent(filters.stores)}`;
+    }
+  }
+
+  console.log("[GetGames] URL:", url);
+  console.log("[GetGames] Query:", query, "Type:", searchType);
+  console.log("[GetGames] Filters:", filters);
 
   const res = await fetch(url);
 
-  if (!res.ok) throw new Error("Error: Failed to fetch games.");
+  if (!res.ok) {
+    console.error("[GetGames] Fetch error:", res.status, res.statusText);
+    throw new Error("Error: Failed to fetch games.");
+  }
 
   const data: RAWGResponse = await res.json();
+  console.log("[GetGames] Results count:", data.results.length);
+  console.log("[GetGames] Total count:", data.count);
   return data.results as GameProps[];
 }
 

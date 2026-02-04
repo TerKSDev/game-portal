@@ -9,8 +9,6 @@ export default function Navigator() {
   const { data: session, status } = useSession();
   const path = usePathname();
 
-  console.log(status);
-
   const visibleRoutes = [
     "Store",
     "Login",
@@ -67,7 +65,7 @@ export default function Navigator() {
                 </Link>
 
                 <div
-                  className={`hidden flex-col absolute top-full -left-1 mt-1 group-hover:flex rounded-lg border border-gray-700 bg-gray-900/95 backdrop-blur-md shadow-xl overflow-hidden text-sm text-nowrap`}
+                  className={`hidden flex-col absolute top-full -left-1 mt-1 group-hover:flex rounded-lg border border-gray-700 bg-gray-900/95 backdrop-blur-md shadow-xl overflow-hidden text-sm text-nowrap z-50`}
                 >
                   {ROUTES.map((subroute) => {
                     if (subRoutes.includes(subroute.name)) {

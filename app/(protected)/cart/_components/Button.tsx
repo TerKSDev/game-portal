@@ -17,7 +17,7 @@ export function RemoveButton({ id }: { id: string }) {
   return (
     <button
       onClick={handleRemove}
-      className="text-red-400 hover:text-red-300 text-sm px-3 py-1.5 rounded-lg hover:bg-red-500/10 transition-all self-start border border-transparent hover:border-red-500/30 font-medium"
+      className="text-red-400 hover:text-red-300 text-sm px-3 py-1.5 rounded-lg hover:bg-red-500/10 transition-all self-start border border-transparent hover:border-red-500/30 font-medium ml-auto"
     >
       Remove
     </button>

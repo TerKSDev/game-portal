@@ -26,11 +26,11 @@ export default function Login() {
     >
       <div className="w-screen h-screen bg-linear-to-br from-black/70 to-blue-900/40 fixed top-0 left-0 z-0 backdrop-blur-sm"></div>
 
-      <div className="flex flex-col m-auto w-full max-w-md px-6 z-10 mt-32">
-        <h1 className="text-3xl font-bold mb-1 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <div className="flex flex-col m-auto w-full max-w-md px-4 sm:px-6 z-10 mt-20 sm:mt-32 max-sm:mt-32">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-1 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
           Welcome Back!
         </h1>
-        <p className="text-gray-400 text-sm mb-6 ml-0.5">
+        <p className="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6 ml-0.5">
           Sign in to continue your gaming adventure
         </p>
 

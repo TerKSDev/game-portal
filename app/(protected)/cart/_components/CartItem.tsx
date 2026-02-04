@@ -19,7 +19,7 @@ interface CartItemProps {
 
 export default function CartItem({ item }: { item: CartItemProps }) {
   return (
-    <div className="flex flex-row justify-between bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-4 rounded-xl shadow-lg hover:border-gray-600/50 transition-all">
+    <div className="flex flex-col sm:flex-row justify-between bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-3 sm:p-4 rounded-xl shadow-lg hover:border-gray-600/50 transition-all gap-3 sm:gap-0">
       <div className="flex flex-1 gap-4">
         <div className="relative w-50 aspect-video rounded-lg overflow-hidden shadow-md border border-gray-700/50 shrink-0">
           <Image
@@ -33,13 +33,15 @@ export default function CartItem({ item }: { item: CartItemProps }) {
           <div>
             <Link
               href={`${PATHS.DETAILS}/${item.gameId}`}
-              className="text-lg font-semibold hover:text-blue-400 transition-colors line-clamp-2"
+              className="text-base sm:text-lg font-semibold hover:text-blue-400 transition-colors line-clamp-2"
             >
               {item.name}
             </Link>
-            <p className="text-sm text-gray-400 mt-1">Added: {item.addedAt}</p>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1">
+              Added: {item.addedAt}
+            </p>
           </div>
-          <div className="flex items-center gap-4 text-xl font-bold">
+          <div className="flex items-center gap-2 sm:gap-4 text-lg sm:text-xl font-bold">
             <p className="text-blue-400">
               {item.price === 0 ? "Free" : `RM ${item.price.toFixed(2)}`}
             </p>

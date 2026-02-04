@@ -10,8 +10,8 @@ export default function LibraryItem({
   isSelected?: boolean;
 }) {
   return (
-    <div className="flex flex-row items-center gap-3 p-3 px-6 text-sm min-w-full group">
-      <div className="relative w-16 h-9 shrink-0 rounded-lg overflow-hidden shadow-md border border-gray-700/50">
+    <div className="flex flex-row items-center gap-2 sm:gap-3 p-2 px-3 sm:p-3 sm:px-6 text-xs sm:text-sm min-w-full group">
+      <div className="relative w-12 h-7 sm:w-16 sm:h-9 shrink-0 rounded-md sm:rounded-lg overflow-hidden shadow-md border border-gray-700/50">
         <Image
           src={itemDetails.image}
           alt={itemDetails.name}

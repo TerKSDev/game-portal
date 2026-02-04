@@ -61,9 +61,9 @@ export default async function Library(props: PageProps) {
   return (
     <>
       {showSuccess && <PaymentSuccess />}
-      <div className="flex flex-row flex-1 pt-24 min-h-screen">
-        <div className="flex w-80 max-lg:w-64 flex-col bg-gray-900/80 backdrop-blur-md border-r border-gray-700/50 py-4 overflow-y-auto shadow-2xl">
-          <h2 className="text-xl font-bold mb-4 px-6 text-blue-400">
+      <div className="flex flex-col lg:flex-row flex-1 pt-20 sm:pt-24 min-h-screen">
+        <div className="flex w-full lg:w-80 flex-col bg-gray-900/80 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-gray-700/50 py-3 sm:py-4 overflow-y-auto shadow-2xl max-h-60 lg:max-h-none">
+          <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4 px-3 sm:px-6 text-blue-400">
             My Library
           </h2>
           <div className="flex flex-col">

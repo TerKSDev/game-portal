@@ -61,13 +61,13 @@ export default async function Cart() {
   }, 0);
 
   return (
-    <div className="flex flex-col flex-1 pt-32 px-4 sm:px-6 lg:px-8 pb-12 min-h-screen">
+    <div className="flex flex-col flex-1 pt-20 sm:pt-24 lg:pt-32 px-3 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-3xl font-bold mb-8 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent max-sm:mt-6">
           Shopping Cart
         </h1>
         {cartItems.length !== 0 ? (
-          <div className="flex flex-1 flex-row gap-6 max-lg:flex-col">
+          <div className="flex flex-1 flex-col lg:flex-row gap-4 sm:gap-6">
             <div className="flex flex-col flex-2 gap-4">
               {cartItems.map((item) => {
                 return <CartItem key={item.id} item={item} />;

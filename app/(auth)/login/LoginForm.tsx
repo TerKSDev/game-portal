@@ -47,41 +47,41 @@ export default function LoginForm() {
 
   return (
     <>
-      <div className="bg-gray-900/80 backdrop-blur-md border border-gray-700/50 flex flex-col rounded-xl p-8 gap-y-4 shadow-2xl">
-        <form action={dispatch} className="flex flex-col gap-y-6">
+      <div className="bg-gray-900/80 backdrop-blur-md border border-gray-700/50 flex flex-col rounded-xl p-5 sm:p-8 gap-y-3 sm:gap-y-4 shadow-2xl">
+        <form action={dispatch} className="flex flex-col gap-y-4 sm:gap-y-6">
           <div className="flex flex-col gap-y-2 w-full">
-            <label className="text-sm font-medium text-gray-300">
+            <label className="text-xs sm:text-sm font-medium text-gray-300">
               Account Name
             </label>
-            <div className="flex flex-row gap-x-3 items-center bg-gray-800/50 border border-gray-700 px-4 py-3 rounded-lg focus-within:border-blue-500 focus-within:bg-gray-800 transition-all duration-200">
+            <div className="flex flex-row gap-x-3 items-center bg-gray-800/50 border border-gray-700 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg focus-within:border-blue-500 focus-within:bg-gray-800 transition-all duration-200">
               <label htmlFor="username" className="text-gray-400">
-                <VscSymbolNamespace size={20} />
+                <VscSymbolNamespace size={18} className="sm:w-5 sm:h-5" />
               </label>
               <input
                 type="text"
                 id="username"
                 placeholder="Enter your account name"
                 name="username"
-                className="text-sm w-full bg-transparent outline-none placeholder:text-gray-500"
+                className="text-xs sm:text-sm w-full bg-transparent outline-none placeholder:text-gray-500"
                 key={state?.username}
                 defaultValue={state?.username || ""}
               />
             </div>
           </div>
           <div className="flex flex-col gap-y-2 w-full">
-            <label className="text-sm font-medium text-gray-300">
+            <label className="text-xs sm:text-sm font-medium text-gray-300">
               Password
             </label>
-            <div className="flex flex-row gap-x-3 items-center bg-gray-800/50 border border-gray-700 px-4 py-3 rounded-lg focus-within:border-blue-500 focus-within:bg-gray-800 transition-all duration-200">
+            <div className="flex flex-row gap-x-3 items-center bg-gray-800/50 border border-gray-700 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg focus-within:border-blue-500 focus-within:bg-gray-800 transition-all duration-200">
               <label htmlFor="password" className="text-gray-400">
-                <MdPassword size={20} />
+                <MdPassword size={18} className="sm:w-5 sm:h-5" />
               </label>
               <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
                 name="password"
-                className="text-sm w-full bg-transparent outline-none placeholder:text-gray-500"
+                className="text-xs sm:text-sm w-full bg-transparent outline-none placeholder:text-gray-500"
               />
             </div>
           </div>

@@ -34,12 +34,12 @@ export default function ItemDetails({
         />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent"></div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-8">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-8">
           <div className="max-w-4xl">
-            <h1 className="text-4xl font-bold mb-4 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               {itemDetails.name}
             </h1>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-300 mb-6">
+            <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300 mb-4 sm:mb-6">
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs">Purchased Date</span>
                 <span className="font-medium">{itemDetails.purchasedAt}</span>
@@ -51,18 +51,18 @@ export default function ItemDetails({
                 </span>
               </div>
             </div>
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link
                 href={itemDetails.gameUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50"
+                className="bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50 text-center text-sm sm:text-base"
               >
                 Play Now
               </Link>
               <Link
                 href={`/games/${itemDetails.gameId}`}
-                className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:bg-gray-700 hover:border-gray-600 px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+                className="bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:bg-gray-700 hover:border-gray-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-semibold transition-all duration-300 text-center text-sm sm:text-base"
               >
                 View Details
               </Link>

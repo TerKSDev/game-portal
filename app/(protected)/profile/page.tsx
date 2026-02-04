@@ -58,7 +58,7 @@ export default async function Profile() {
   };
 
   return (
-    <div className="flex flex-1 pt-32 px-4 sm:px-6 lg:px-8 pb-12 min-h-screen">
+    <div className="flex flex-1 pt-24 sm:pt-32 px-2 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
       <ProfileForm key={user?.name} userData={data} libraryData={library} />
     </div>
   );

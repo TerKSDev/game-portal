@@ -40,8 +40,8 @@ export default function SummaryCard({
   const orbsReward = !useOrbs ? Math.floor(validTotalAmount * 0.05 * 100) : 0;
 
   return (
-    <div className="flex flex-col flex-1 bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-6 rounded-xl shadow-2xl gap-6 h-fit sticky top-32">
-      <h2 className="font-bold text-xl bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+    <div className="flex flex-col flex-1 bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-4 sm:p-6 rounded-xl shadow-2xl gap-4 sm:gap-6 h-fit lg:sticky lg:top-24">
+      <h2 className="font-bold text-lg sm:text-xl bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
         Order Summary
       </h2>
 
@@ -135,8 +135,10 @@ export default function SummaryCard({
         {/* Total */}
         <div className="border-t border-gray-700 pt-4 mt-4">
           <div className="flex flex-row justify-between items-center">
-            <span className="text-lg font-bold text-gray-200">Total</span>
-            <span className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="text-base sm:text-lg font-bold text-gray-200">
+              Total
+            </span>
+            <span className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               RM {finalTotal.toFixed(2)}
             </span>
           </div>
