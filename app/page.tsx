@@ -2,15 +2,10 @@ import Header from "@/app/components/Header";
 import GameList from "./components/GameList";
 import { GetGames } from "@/lib/game";
 
-import { ROUTES } from "@/app/_config/routes";
-
-function GetTitle(path: string) {
-  const route = ROUTES.find((r) => r.path === path);
-  return route ? route.name : "Game Portal";
-}
-
 export const metadata = {
-  title: GetTitle("/"),
+  title: "Store",
+  description:
+    "Browse thousands of games and discover your next adventure. Find the best deals on the latest releases and timeless classics.",
 };
 
 export default async function Home(props: {

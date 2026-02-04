@@ -34,9 +34,19 @@ export default async function Cart() {
   const cartItems = await Promise.all(
     rawCartItems.map(async (item) => {
       const priceData = await GetGamePrice(item.name);
-      const price = priceData?.final
-        ? parseFloat(priceData.final.replace(/[^\d.]/g, ""))
-        : 0;
+      let price = 0;
+
+      if (priceData?.final) {
+        const priceStr = priceData.final.toLowerCase();
+        if (priceStr === "free" || priceStr === "0") {
+          price = 0;
+        } else {
+          const parsedPrice = parseFloat(
+            priceData.final.replace(/[^\d.]/g, ""),
+          );
+          price = isNaN(parsedPrice) ? 0 : parsedPrice;
+        }
+      }
 
       return {
         ...item,

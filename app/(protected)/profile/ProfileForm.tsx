@@ -282,10 +282,16 @@ export default function ProfileForm({ userData, libraryData }: ProfileProps) {
                 <div className="w-3 h-3 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50 animate-pulse"></div>
               </div>
               <div className="flex flex-row gap-3 w-full">
-                <button className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-blue-500/50">
+                <button
+                  onClick={() => router.push(PATHS.HISTORY)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-blue-500/50"
+                >
                   <span className="text-sm">History</span>
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-yellow-500/50">
+                <button
+                  onClick={() => router.push(PATHS.TOP_UP)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-linear-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-yellow-500/50"
+                >
                   <span className="text-sm">Top Up</span>
                 </button>
               </div>

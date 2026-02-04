@@ -40,13 +40,17 @@ export default function CartItem({ item }: { item: CartItemProps }) {
             <p className="text-sm text-gray-400 mt-1">Added: {item.addedAt}</p>
           </div>
           <div className="flex items-center gap-4 text-xl font-bold">
-            <p className="text-blue-400">RM {item.price.toFixed(2)}</p>
-            <div className="flex items-center gap-1.5 text-sm bg-linear-to-r from-yellow-600/20 to-orange-600/20 border border-yellow-600/30 rounded-lg px-3 py-1.5">
-              <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
-              <p className="font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                {(item.price * 100).toLocaleString()} Orbs
-              </p>
-            </div>
+            <p className="text-blue-400">
+              {item.price === 0 ? "Free" : `RM ${item.price.toFixed(2)}`}
+            </p>
+            {item.price > 0 && (
+              <div className="flex items-center gap-1.5 text-sm bg-linear-to-r from-yellow-600/20 to-orange-600/20 border border-yellow-600/30 rounded-lg px-3 py-1.5">
+                <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
+                <p className="font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                  {(item.price * 100).toLocaleString()} Orbs
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

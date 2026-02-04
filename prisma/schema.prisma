@@ -182,6 +182,7 @@ model Transaction {
   cashAmount Float?
   description String?
   status String
+  stripeSessionId String? @unique
   createdAt DateTime @default(now())
 }
 

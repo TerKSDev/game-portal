@@ -53,6 +53,12 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Game Portal - Your Gaming Marketplace",
       },
+      {
+        url: "/og-image-square.png",
+        width: 1200,
+        height: 1200,
+        alt: "Game Portal - Your Gaming Marketplace",
+      },
     ],
     locale: "en_US",
     type: "website",

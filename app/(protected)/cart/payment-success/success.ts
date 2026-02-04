@@ -108,6 +108,22 @@ export async function HandlePaymentSuccess(sessionId?: string | null) {
         data: { orbs: updatedOrbs },
       });
 
+      // Create transaction record for the purchase
+      const cashAmount = totalPurchaseAmount - orbsUsed / 100;
+      const gamesList = cartItem.map((item) => item.name).join(", ");
+
+      await tx.transaction.create({
+        data: {
+          userId: userId,
+          type: "Purchase",
+          amount: orbsUsed, // Orbs used (if any)
+          cashAmount: cashAmount > 0 ? cashAmount : null,
+          description: `Purchased games: ${gamesList}`,
+          status: "Success",
+          stripeSessionId: sessionId || undefined,
+        },
+      });
+
       // Add items to library (check for duplicates)
       for (const item of cartItem) {
         const price = priceMap.get(item.name);
