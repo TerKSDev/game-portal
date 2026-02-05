@@ -17,10 +17,11 @@ export default function Navigator() {
     "Library",
     "Wishlist",
     "Cart",
+    "Friend",
   ];
   const guestRoutes = ["Login", "Register"];
   const authRoutes = ["Profile", "Library"];
-  const subRoutes = ["Profile", "Wishlist", "Cart"];
+  const subRoutes = ["Profile", "Wishlist", "Cart", "Friend"];
 
   return (
     <nav className="flex flex-row gap-x-8 max-md:hidden">

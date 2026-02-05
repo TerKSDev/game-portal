@@ -12,6 +12,7 @@ export const PATHS = {
   PAYMENT_SUCCESS: "/cart/payment-success",
   TOP_UP: "/profile/top_up",
   HISTORY: "/profile/history",
+  FRIEND: "/friend"
 };
 
 //* 定義需要什麽變量信息
@@ -70,4 +71,8 @@ export const ROUTES: RouteConfig[] = [
     path: PATHS.HISTORY,
     name: "History",
   },
+  {
+    path: PATHS.FRIEND,
+    name: "Friend",
+  }
 ];

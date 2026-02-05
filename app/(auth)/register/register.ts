@@ -3,6 +3,15 @@
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Generate a random 16-digit UID
+function generateUID(): string {
+  let uid = "";
+  for (let i = 0; i < 16; i++) {
+    uid += Math.floor(Math.random() * 10).toString();
+  }
+  return uid;
+}
+
 export async function register(formData: FormData) {
   const username = formData.get("accountName") as string;
   const password = formData.get("accountPassword") as string;
@@ -32,10 +41,25 @@ export async function register(formData: FormData) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    // Generate unique UID
+    let uid = generateUID();
+    let uidExists = await prisma.user.findUnique({
+      where: { uid },
+    });
+
+    // Regenerate if UID already exists (extremely rare)
+    while (uidExists) {
+      uid = generateUID();
+      uidExists = await prisma.user.findUnique({
+        where: { uid },
+      });
+    }
+
     await prisma.user.create({
       data: {
         name: username,
         password: hashedPassword,
+        uid,
       },
     });
 

@@ -134,7 +134,7 @@ export default function GameFilters() {
       </button>
 
       {isOpen && (
-        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-80 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-50 h-screen sm:h-auto sm:max-h-[600px] overflow-y-auto">
+        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-80 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-10 h-screen sm:h-auto sm:max-h-150 overflow-y-auto">
           {/* Header */}
           <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 flex items-center justify-between z-10">
             <h3 className="text-lg font-bold text-white">Filters & Sort</h3>
@@ -174,33 +174,6 @@ export default function GameFilters() {
                 </option>
               ))}
             </select>
-          </div>
-
-          {/* Steam Store Filter */}
-          <div className="p-4 border-b border-gray-700">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <IoPricetagOutline size={18} className="text-blue-400" />
-                <h4 className="font-semibold text-white">Available on Steam</h4>
-              </div>
-              <button
-                onClick={() =>
-                  updateFilters("stores", currentStores === "1" ? "" : "1")
-                }
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  currentStores === "1" ? "bg-blue-600" : "bg-gray-600"
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    currentStores === "1" ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
-              </button>
-            </div>
-            <p className="text-xs text-gray-500 mt-2">
-              Show only games available on Steam (more likely to have pricing)
-            </p>
           </div>
 
           {/* Date Range */}

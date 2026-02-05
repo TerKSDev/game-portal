@@ -56,6 +56,7 @@ model VerificationToken {
 model User {
   //* OAuth
   id            String    @id @default(cuid())
+  uid           String?   @unique
   name          String?
   email         String?   @unique
   emailVerified DateTime?
@@ -77,6 +78,7 @@ model User {
   library  LibraryItem[]
   reviews  Review[]
   transactions Transaction[]
+  friendships Friendship[]
 }
 
 enum UserStatus {
@@ -84,6 +86,24 @@ enum UserStatus {
   Offline
   Do_Not_Disturb
   Invisible
+}
+
+model Friendship {
+  id String @id @default(cuid())
+  user_id String
+  friend_id String
+  status FriendshipStatus @default(Pending)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+enum FriendshipStatus {
+  Pending
+  Accepted
+  Declined
+  Blocked
 }
 
 model WishlistItem {

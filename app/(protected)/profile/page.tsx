@@ -31,6 +31,7 @@ export default async function Profile() {
       createdAt: true,
       email: true,
       orbs: true,
+      uid: true,
     },
   });
 
@@ -48,6 +49,42 @@ export default async function Profile() {
     orderBy: { purchasedAt: "desc" },
   });
 
+  // Get friends (limited to 6)
+  const friendships = await prisma.friendship.findMany({
+    where: {
+      user_id: session?.user?.id,
+      status: "Accepted",
+    },
+    take: 6,
+    select: {
+      friend_id: true,
+    },
+  });
+
+  const friendIds = friendships.map((f) => f.friend_id);
+  const friends = await prisma.user.findMany({
+    where: {
+      id: {
+        in: friendIds,
+      },
+    },
+    select: {
+      id: true,
+      uid: true,
+      name: true,
+      image: true,
+      userStatus: true,
+    },
+  });
+
+  // Get total friend count
+  const totalFriends = await prisma.friendship.count({
+    where: {
+      user_id: session?.user?.id,
+      status: "Accepted",
+    },
+  });
+
   const date = user?.createdAt?.toLocaleDateString().toString();
   const status = user?.userStatus?.toString();
 
@@ -59,7 +96,13 @@ export default async function Profile() {
 
   return (
     <div className="flex flex-1 pt-24 sm:pt-32 px-2 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
-      <ProfileForm key={user?.name} userData={data} libraryData={library} />
+      <ProfileForm
+        key={user?.name}
+        userData={data}
+        libraryData={library}
+        friendsData={friends}
+        totalFriends={totalFriends}
+      />
     </div>
   );
 }
