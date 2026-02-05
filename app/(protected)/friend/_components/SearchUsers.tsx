@@ -189,7 +189,9 @@ function UserCard({
   showMutual?: boolean;
 }) {
   const hasMutualFriends =
-    user.mutualFriendsCount && user.mutualFriendsCount > 0;
+    user.mutualFriendsCount !== undefined &&
+    user.mutualFriendsCount !== null &&
+    user.mutualFriendsCount > 0;
   const mutualFriends = user.mutualFriends || [];
 
   return (
@@ -223,21 +225,40 @@ function UserCard({
             )}
 
             {showMutual && hasMutualFriends && mutualFriends.length > 0 && (
-              <div className="mt-2 flex items-center gap-1.5">
-                <FaUserFriends
-                  size={12}
-                  className="text-blue-400 flex-shrink-0"
-                />
-                <p className="text-xs text-gray-400">
-                  {mutualFriends[0]?.name || "Someone"}
-                  {user.mutualFriendsCount && user.mutualFriendsCount > 1 && (
-                    <span>
-                      {" "}
-                      and {user.mutualFriendsCount - 1} other
-                      {user.mutualFriendsCount - 1 === 1 ? "" : "s"}
-                    </span>
-                  )}
-                </p>
+              <div className="mt-2 flex items-center gap-2">
+                <FaUserFriends size={12} className="text-blue-400 shrink-0" />
+                <div className="flex items-center gap-1.5">
+                  <div className="flex -space-x-2">
+                    {mutualFriends.slice(0, 3).map((friend) => (
+                      <div
+                        key={friend.id}
+                        className="w-5 h-5 rounded-full border-2 border-gray-800 overflow-hidden bg-gray-700 shrink-0"
+                      >
+                        {friend.image ? (
+                          <Image
+                            src={friend.image}
+                            alt={friend.name || "Friend"}
+                            width={20}
+                            height={20}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                            <span className="text-white text-[9px] font-bold">
+                              {friend.name?.[0]?.toUpperCase() || "?"}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-xs text-gray-400">
+                    {user.mutualFriendsCount}{" "}
+                    {user.mutualFriendsCount === 1
+                      ? "mutual friend"
+                      : "mutual friends"}
+                  </span>
+                </div>
               </div>
             )}
           </div>
