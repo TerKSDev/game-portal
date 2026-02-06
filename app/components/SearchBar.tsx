@@ -5,6 +5,7 @@ import { IoIosSearch } from "react-icons/io";
 import { IoGameController, IoBusinessSharp } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useState, useEffect, useRef } from "react";
+import { PATHS } from "@/app/_config/routes";
 
 export default function SearchBar() {
   const searchParams = useSearchParams();
@@ -38,6 +39,10 @@ export default function SearchBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  if (pathname === PATHS.TOP_UP) {
+    return null;
+  }
+
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -48,7 +53,8 @@ export default function SearchBar() {
       params.delete("searchType");
     }
 
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+    const targetPath = pathname === PATHS.STORE ? PATHS.STORE : PATHS.STORE;
+    replace(`${targetPath}?${params.toString()}`, { scroll: false });
   }, 300);
 
   const handleSearchTypeChange = (type: "name" | "publisher") => {
@@ -61,7 +67,11 @@ export default function SearchBar() {
     if (currentQuery) {
       params.set("query", currentQuery);
     }
-    replace(`${pathname}?${params.toString()}`, { scroll: false });
+
+    // 如果有搜索内容且不在 store 页面，跳转到 store 页面
+    const targetPath =
+      currentQuery && pathname !== PATHS.STORE ? PATHS.STORE : pathname;
+    replace(`${targetPath}?${params.toString()}`, { scroll: false });
   };
 
   const searchOptions = [

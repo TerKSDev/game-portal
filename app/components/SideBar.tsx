@@ -16,6 +16,7 @@ import {
   IoLogOut,
   IoClose,
 } from "react-icons/io5";
+import { FaUserFriends } from "react-icons/fa";
 import { PATHS } from "@/app/_config/routes";
 
 const routeIcons: Record<string, any> = {
@@ -26,6 +27,7 @@ const routeIcons: Record<string, any> = {
   Cart: IoCart,
   Login: IoLogIn,
   Register: IoPersonAdd,
+  Friend: FaUserFriends,
 };
 
 interface SideBarProps {
@@ -39,7 +41,7 @@ export default function SideBar({ onClose }: SideBarProps) {
   const router = useRouter();
 
   const guestRoutes = ["Login", "Register"];
-  const authRoutes = ["Profile", "Library", "Wishlist", "Cart"];
+  const authRoutes = ["Profile", "Library", "Wishlist", "Cart", "Friend"];
 
   // Routes that should never appear in sidebar
   const hiddenRoutes = [
@@ -57,7 +59,7 @@ export default function SideBar({ onClose }: SideBarProps) {
   };
 
   return (
-    <nav className="fixed flex flex-col z-[9999] left-0 top-0 bg-gray-900/98 backdrop-blur-md h-screen w-72 shadow-2xl border-r border-gray-700/50 animate-in slide-in-from-left duration-300">
+    <nav className="fixed flex flex-col z-9999 left-0 top-0 bg-gray-900/98 backdrop-blur-md h-screen w-72 shadow-2xl border-r border-gray-700/50 animate-in slide-in-from-left duration-300">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-700/50">
         <div className="flex flex-col">
