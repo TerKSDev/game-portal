@@ -7,7 +7,7 @@ import {
   IoFunnelOutline,
   IoTrendingUpOutline,
   IoCalendarOutline,
-  IoPricetagOutline,
+  IoPricetagOutline
 } from "react-icons/io5";
 import { MdSortByAlpha } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
@@ -53,10 +53,8 @@ export default function LibrarySearchBar() {
 
   const currentSort = searchParams.get("sort") || "purchasedAt-desc";
   const currentDateFilter = searchParams.get("dateFilter") || "";
-  const currentPriceFilter = searchParams.get("priceFilter") || "";
 
-  const activeFiltersCount =
-    (currentDateFilter ? 1 : 0) + (currentPriceFilter ? 1 : 0);
+  const activeFiltersCount = currentDateFilter ? 1 : 0;
 
   useEffect(() => {
     setIsMounted(true);
@@ -124,7 +122,6 @@ export default function LibrarySearchBar() {
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams);
     params.delete("dateFilter");
-    params.delete("priceFilter");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -314,74 +311,6 @@ export default function LibrarySearchBar() {
                           className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700/50 text-gray-300 hover:bg-gray-700 transition-all"
                         >
                           Clear Date Filter
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Price Filter */}
-                  <div className="p-3">
-                    <div className="flex items-center gap-2 mb-2">
-                      <IoPricetagOutline size={16} className="text-blue-400" />
-                      <h4 className="font-semibold text-white text-sm">
-                        Price Range
-                      </h4>
-                    </div>
-                    <div className="space-y-1">
-                      <button
-                        onClick={() =>
-                          handleFilterChange("priceFilter", "under10")
-                        }
-                        className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
-                          currentPriceFilter === "under10"
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
-                        }`}
-                      >
-                        Under $10
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleFilterChange("priceFilter", "10to30")
-                        }
-                        className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
-                          currentPriceFilter === "10to30"
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
-                        }`}
-                      >
-                        $10 - $30
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleFilterChange("priceFilter", "30to60")
-                        }
-                        className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
-                          currentPriceFilter === "30to60"
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
-                        }`}
-                      >
-                        $30 - $60
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleFilterChange("priceFilter", "over60")
-                        }
-                        className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
-                          currentPriceFilter === "over60"
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
-                        }`}
-                      >
-                        Over $60
-                      </button>
-                      {currentPriceFilter && (
-                        <button
-                          onClick={() => handleFilterChange("priceFilter", "")}
-                          className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700/50 text-gray-300 hover:bg-gray-700 transition-all"
-                        >
-                          Clear Price Filter
                         </button>
                       )}
                     </div>
