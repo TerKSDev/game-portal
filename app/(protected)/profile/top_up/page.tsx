@@ -36,7 +36,7 @@ export default async function TopUp() {
   return (
     <div className="flex flex-1 pt-32 px-4 sm:px-6 lg:px-8 pb-12 min-h-screen">
       <div className="max-w-5xl mx-auto w-full">
-        <h1 className="text-3xl font-bold mb-8 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
           Top Up Orbs
         </h1>
         <TopUpForm currentOrbs={currentOrbs} />

@@ -4,10 +4,16 @@ import { usePathname } from "next/navigation";
 import { ROUTES } from "@/app/_config/routes";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default function Navigator() {
   const { data: session, status } = useSession();
   const path = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const visibleRoutes = [
     "Store",
@@ -22,6 +28,21 @@ export default function Navigator() {
   const guestRoutes = ["Login", "Register"];
   const authRoutes = ["Profile", "Library"];
   const subRoutes = ["Profile", "Wishlist", "Cart", "Friend"];
+
+  // Prevent hydration mismatch by not rendering session-dependent content until mounted
+  if (!mounted) {
+    return (
+      <nav className="flex flex-row gap-x-8 max-md:hidden">
+        <Link
+          href={ROUTES.find((r) => r.name === "Store")?.path || "/"}
+          className="text-base font-medium transition-all relative group/link text-gray-300 hover:text-blue-300"
+        >
+          Store
+          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transition-all group-hover/link:w-full"></span>
+        </Link>
+      </nav>
+    );
+  }
 
   return (
     <nav className="flex flex-row gap-x-8 max-md:hidden">
@@ -95,7 +116,7 @@ export default function Navigator() {
             >
               {route.name}
               <span
-                className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-blue-500 to-purple-500 transition-all group-hover/link:w-full ${isActive ? "w-full" : ""}`}
+                className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transition-all group-hover/link:w-full ${isActive ? "w-full" : ""}`}
               ></span>
             </Link>
           );
