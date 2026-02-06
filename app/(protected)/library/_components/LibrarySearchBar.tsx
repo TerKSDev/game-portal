@@ -7,7 +7,7 @@ import {
   IoFunnelOutline,
   IoTrendingUpOutline,
   IoCalendarOutline,
-  IoPricetagOutline
+  IoPricetagOutline,
 } from "react-icons/io5";
 import { MdSortByAlpha } from "react-icons/md";
 import { useState, useRef, useEffect } from "react";
@@ -140,19 +140,21 @@ export default function LibrarySearchBar() {
               handleSearch(e.target.value);
             }}
           />
-          {searchValue && (
-            <button
-              onClick={handleClear}
-              className="mr-3 p-1 hover:bg-gray-700 rounded-full transition-colors"
-              aria-label="Clear search"
-            >
-              <IoClose size={18} className="text-gray-400 hover:text-white" />
-            </button>
-          )}
+          <button
+            onClick={handleClear}
+            className={`absolute right-3 p-1 hover:bg-gray-700 rounded-full transition-all ${
+              searchValue
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+            aria-label="Clear search"
+          >
+            <IoClose size={18} className="text-gray-400 hover:text-white" />
+          </button>
         </div>
 
         {/* Filter Button */}
-        <div>
+        <div className="flex-shrink-0">
           <button
             ref={buttonRef}
             onClick={() => setIsFilterOpen(!isFilterOpen)}
