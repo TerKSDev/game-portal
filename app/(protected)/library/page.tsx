@@ -55,7 +55,7 @@ export default async function Library(props: PageProps) {
 
   const libraryItems = rawLibrary.map((item) => ({
     ...item,
-    purchasedAt: item.purchasedAt.toLocaleDateString(),
+    purchasedAt: item.purchasedAt.toISOString(),
     purchasedAtRaw: item.purchasedAt,
     purchasedPrice: item.purchasedPrice.toString(),
     purchasedPriceRaw: parseFloat(item.purchasedPrice.toString()),

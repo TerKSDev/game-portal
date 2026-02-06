@@ -9,6 +9,17 @@ import { GoTriangleDown } from "react-icons/go";
 import { FaGhost, FaUserFriends } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 
+// Helper function to format date consistently on client
+function formatDate(dateString: string | Date): string {
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 interface UserProfileViewProps {
   userData: {
     id: string;
@@ -118,7 +129,7 @@ export default function UserProfileView({
 
                 <div className="flex flex-col gap-1 px-3">
                   <p className="text-sm text-gray-400">
-                    Joined: {userData.createdAt}
+                    Joined: {formatDate(userData.createdAt)}
                   </p>
                   {userData.uid && (
                     <p className="text-sm text-gray-400">
@@ -239,8 +250,7 @@ export default function UserProfileView({
                         {item.name}
                       </p>
                       <p className="text-[10px] text-gray-400">
-                        Purchased on:{" "}
-                        {new Date(item.purchasedAt).toLocaleDateString()}
+                        Purchased on: {formatDate(item.purchasedAt)}
                       </p>
                     </div>
                   </Link>

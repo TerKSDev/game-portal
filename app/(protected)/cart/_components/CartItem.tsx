@@ -6,6 +6,16 @@ import Link from "next/link";
 import { PATHS } from "@/app/_config/routes";
 import { RemoveButton } from "./Button";
 
+// Helper function to format date consistently on client
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 interface CartItemProps {
   id: string;
   name: string;
@@ -38,7 +48,7 @@ export default function CartItem({ item }: { item: CartItemProps }) {
               {item.name}
             </Link>
             <p className="text-xs sm:text-sm text-gray-400 mt-1">
-              Added: {item.addedAt}
+              Added: {formatDate(item.addedAt)}
             </p>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 text-lg sm:text-xl font-bold">

@@ -9,6 +9,8 @@ export const metadata = {
   description: "Add orbs to your Game Portal wallet.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TopUp() {
   const session = await auth();
 
@@ -25,7 +27,11 @@ export default async function TopUp() {
     },
   });
 
-  const currentOrbs = user?.orbs || 0;
+  if (!user) {
+    redirect(PATHS.PROFILE);
+  }
+
+  const currentOrbs = user.orbs;
 
   return (
     <div className="flex flex-1 pt-32 px-4 sm:px-6 lg:px-8 pb-12 min-h-screen">

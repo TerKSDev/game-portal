@@ -51,7 +51,7 @@ export default async function Cart() {
       return {
         ...item,
         price,
-        addedAt: item.addedAt.toLocaleDateString(),
+        addedAt: item.addedAt.toISOString(),
       };
     }),
   );

@@ -57,7 +57,7 @@ export default async function Wishlist() {
       return {
         ...item,
         isInCart: cartGameIds.has(item.gameId),
-        addedAt: item.addedAt.toLocaleDateString(),
+        addedAt: item.addedAt.toISOString(),
         price: priceData?.final || "N/A",
         isAddedToCart: cartGameIds.has(item.gameId),
       };

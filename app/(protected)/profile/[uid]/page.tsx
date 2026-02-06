@@ -4,6 +4,8 @@ import { PATHS } from "@/app/_config/routes";
 import prisma from "@/lib/prisma";
 import UserProfileView from "@/app/(protected)/profile/_components/UserProfileView";
 
+export const dynamic = "force-dynamic";
+
 export default async function UserProfilePage({
   params,
 }: {
@@ -41,62 +43,74 @@ export default async function UserProfilePage({
       redirect(PATHS.PROFILE);
     }
 
-    // Check friendship status
-    const friendship = await prisma.friendship.findFirst({
-      where: {
-        OR: [
-          { user_id: session.user.id, friend_id: userData.id },
-          { user_id: userData.id, friend_id: session.user.id },
-        ],
-      },
-    });
+    // Parallel queries for better performance
+    const [friendship, library] = await Promise.all([
+      prisma.friendship.findFirst({
+        where: {
+          OR: [
+            { user_id: session.user.id, friend_id: userData.id },
+            { user_id: userData.id, friend_id: session.user.id },
+          ],
+        },
+      }),
+      prisma.libraryItem.findMany({
+        where: { userId: userData.id },
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          gameId: true,
+          purchasedAt: true,
+        },
+        orderBy: { purchasedAt: "desc" },
+        take: 6,
+      }),
+    ]);
 
-    // Get user's game library (LibraryItem has cached game data)
-    const library = await prisma.libraryItem.findMany({
-      where: { userId: userData.id },
-      select: {
-        id: true,
-        name: true,
-        image: true,
-        gameId: true,
-        purchasedAt: true,
-      },
-      orderBy: { purchasedAt: "desc" },
-      take: 6,
-    });
+    // Get mutual friends - optimized query
+    const [userFriendships, targetUserFriendships] = await Promise.all([
+      prisma.friendship.findMany({
+        where: {
+          user_id: session.user.id,
+          status: "Accepted",
+        },
+        select: { friend_id: true },
+      }),
+      prisma.friendship.findMany({
+        where: {
+          user_id: userData.id,
+          status: "Accepted",
+        },
+        select: { friend_id: true },
+      }),
+    ]);
 
-    // Get mutual friends
-    const mutualFriends = await prisma.$queryRaw<
-      Array<{
-        id: string;
-        uid: string | null;
-        name: string | null;
-        image: string | null;
-        userStatus: string;
-      }>
-    >`
-      SELECT DISTINCT u.id, u.uid, u.name, u.image, u."userStatus"
-      FROM "User" u
-      WHERE u.id IN (
-        SELECT CASE 
-          WHEN f1."user_id" = ${session.user.id} THEN f1."friend_id"
-          ELSE f1."user_id"
-        END AS friend_id
-        FROM "Friendship" f1
-        WHERE f1.status = 'Accepted'
-          AND (f1."user_id" = ${session.user.id} OR f1."friend_id" = ${session.user.id})
-      )
-      AND u.id IN (
-        SELECT CASE 
-          WHEN f2."user_id" = ${userData.id} THEN f2."friend_id"
-          ELSE f2."user_id"
-        END AS friend_id
-        FROM "Friendship" f2
-        WHERE f2.status = 'Accepted'
-          AND (f2."user_id" = ${userData.id} OR f2."friend_id" = ${userData.id})
-      )
-      LIMIT 6
-    `;
+    const userFriendIds = new Set(userFriendships.map((f) => f.friend_id));
+    const targetFriendIds = new Set(
+      targetUserFriendships.map((f) => f.friend_id),
+    );
+
+    // Find intersection
+    const mutualFriendIds = Array.from(userFriendIds)
+      .filter((id) => targetFriendIds.has(id))
+      .slice(0, 6);
+
+    const mutualFriends =
+      mutualFriendIds.length > 0
+        ? await prisma.user.findMany({
+            where: {
+              id: { in: mutualFriendIds },
+            },
+            select: {
+              id: true,
+              uid: true,
+              name: true,
+              image: true,
+              userStatus: true,
+            },
+            take: 6,
+          })
+        : [];
 
     const libraryData = library.map((item) => ({
       id: item.id,
@@ -114,10 +128,7 @@ export default async function UserProfilePage({
           name: userData.name,
           image: userData.image,
           userStatus: userData.userStatus,
-          createdAt: userData.createdAt.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-          }),
+          createdAt: userData.createdAt.toISOString(),
         }}
         libraryData={libraryData}
         mutualFriends={mutualFriends}

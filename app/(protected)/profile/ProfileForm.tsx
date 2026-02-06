@@ -18,6 +18,17 @@ import { IoIosWarning } from "react-icons/io";
 import { handleChangeStatus } from "./_components/buttonOnClick";
 import Link from "next/link";
 
+// Helper function to format date consistently on client
+function formatDate(dateString: string | undefined): string {
+  if (!dateString) return "Unknown";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 interface ProfileProps {
   userData: {
     name?: string | null | undefined;
@@ -196,7 +207,7 @@ export default function ProfileForm({
                 </div>
                 <div className="flex flex-col gap-1 px-3">
                   <p className="text-sm text-gray-400">
-                    Joined: {userData?.createdAt}
+                    Joined: {formatDate(userData?.createdAt)}
                   </p>
                   {userData?.uid && (
                     <p className="text-sm text-gray-400">
@@ -313,11 +324,13 @@ export default function ProfileForm({
                 {friendsData.map((friend) => (
                   <div
                     key={friend.id}
-                    onClick={() => friend.uid && router.push(`/profile/${friend.uid}`)}
+                    onClick={() =>
+                      friend.uid && router.push(`/profile/${friend.uid}`)
+                    }
                     className={`flex flex-col items-center gap-2 bg-gray-800/50 rounded-lg p-3 border border-gray-700/50 transition-all duration-300 ${
-                      friend.uid 
-                        ? 'hover:border-blue-500/50 hover:bg-gray-700/50 cursor-pointer' 
-                        : 'opacity-70'
+                      friend.uid
+                        ? "hover:border-blue-500/50 hover:bg-gray-700/50 cursor-pointer"
+                        : "opacity-70"
                     }`}
                   >
                     <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-700">
@@ -432,7 +445,7 @@ export default function ProfileForm({
                       </p>
                       <p className="text-[10px] text-gray-400">
                         Purchased on:{" "}
-                        {new Date(item.purchasedAt).toLocaleDateString()}
+                        {formatDate(item.purchasedAt.toISOString())}
                       </p>
                     </div>
                   </Link>

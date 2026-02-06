@@ -97,6 +97,10 @@ model Friendship {
   updated_at DateTime @updatedAt
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id, status])
+  @@index([friend_id, status])
+  @@index([user_id, friend_id])
 }
 
 enum FriendshipStatus {
@@ -161,6 +165,7 @@ model LibraryItem {
   playStatus GameStatus @default(Unplayed)
 
   @@unique([gameId, userId])
+  @@index([userId, purchasedAt])
 }
 
 enum GameStatus {

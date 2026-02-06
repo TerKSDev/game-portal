@@ -6,6 +6,16 @@ import { WishlistItemProps } from "../page";
 import { RemoveButton, AddToCartButton } from "./Button";
 import { PATHS } from "@/app/_config/routes";
 
+// Helper function to format date consistently on client
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 type WishlistItemComponentProps = {
   item: WishlistItemProps;
 };
@@ -43,7 +53,9 @@ export default function WishlistItem({ item }: WishlistItemComponentProps) {
               <div className="text-2xl font-bold text-blue-400">
                 {item.price}
               </div>
-              <p className="text-sm text-gray-400">Added on {item.addedAt}</p>
+              <p className="text-sm text-gray-400">
+                Added on {formatDate(item.addedAt)}
+              </p>
             </div>
           </div>
         </div>

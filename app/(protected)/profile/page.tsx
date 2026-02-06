@@ -13,6 +13,8 @@ export const metadata = {
   description: "Manage your Game Portal account settings and preferences.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Profile() {
   const session = await auth();
 
@@ -20,72 +22,76 @@ export default async function Profile() {
     redirect(PATHS.LOGIN);
   }
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: session?.user?.id,
-    },
-    select: {
-      name: true,
-      image: true,
-      userStatus: true,
-      createdAt: true,
-      email: true,
-      orbs: true,
-      uid: true,
-    },
-  });
-
-  const library = await prisma.libraryItem.findMany({
-    where: {
-      userId: session?.user?.id,
-    },
-    select: {
-      id: true,
-      name: true,
-      image: true,
-      gameId: true,
-      purchasedAt: true,
-    },
-    orderBy: { purchasedAt: "desc" },
-  });
-
-  // Get friends (limited to 6)
-  const friendships = await prisma.friendship.findMany({
-    where: {
-      user_id: session?.user?.id,
-      status: "Accepted",
-    },
-    take: 6,
-    select: {
-      friend_id: true,
-    },
-  });
+  // Parallel queries for better performance
+  const [user, library, friendships, totalFriends] = await Promise.all([
+    prisma.user.findFirst({
+      where: {
+        id: session?.user?.id,
+      },
+      select: {
+        name: true,
+        image: true,
+        userStatus: true,
+        createdAt: true,
+        email: true,
+        orbs: true,
+        uid: true,
+      },
+    }),
+    prisma.libraryItem.findMany({
+      where: {
+        userId: session?.user?.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        gameId: true,
+        purchasedAt: true,
+      },
+      orderBy: { purchasedAt: "desc" },
+      take: 50, // Limit to improve performance
+    }),
+    prisma.friendship.findMany({
+      where: {
+        user_id: session?.user?.id,
+        status: "Accepted",
+      },
+      take: 6,
+      select: {
+        friend_id: true,
+      },
+    }),
+    prisma.friendship.count({
+      where: {
+        user_id: session?.user?.id,
+        status: "Accepted",
+      },
+    }),
+  ]);
 
   const friendIds = friendships.map((f) => f.friend_id);
-  const friends = await prisma.user.findMany({
-    where: {
-      id: {
-        in: friendIds,
-      },
-    },
-    select: {
-      id: true,
-      uid: true,
-      name: true,
-      image: true,
-      userStatus: true,
-    },
-  });
+  const friends =
+    friendIds.length > 0
+      ? await prisma.user.findMany({
+          where: {
+            id: {
+              in: friendIds,
+            },
+          },
+          select: {
+            id: true,
+            uid: true,
+            name: true,
+            image: true,
+            userStatus: true,
+          },
+        })
+      : [];
 
-  // Get total friend count
-  const totalFriends = await prisma.friendship.count({
-    where: {
-      user_id: session?.user?.id,
-      status: "Accepted",
-    },
-  });
-
-  const date = user?.createdAt?.toLocaleDateString().toString();
+  const date = user?.createdAt
+    ? new Date(user.createdAt).toISOString()
+    : undefined;
   const status = user?.userStatus?.toString();
 
   const data = {
