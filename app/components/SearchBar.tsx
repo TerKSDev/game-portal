@@ -39,10 +39,6 @@ export default function SearchBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (pathname === PATHS.TOP_UP) {
-    return null;
-  }
-
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -56,6 +52,11 @@ export default function SearchBar() {
     const targetPath = pathname === PATHS.STORE ? PATHS.STORE : PATHS.STORE;
     replace(`${targetPath}?${params.toString()}`, { scroll: false });
   }, 300);
+
+  // Move early return AFTER all hooks
+  if (pathname === PATHS.TOP_UP) {
+    return null;
+  }
 
   const handleSearchTypeChange = (type: "name" | "publisher") => {
     setSearchType(type);
