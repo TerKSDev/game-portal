@@ -15,6 +15,7 @@ import {
   IoPersonAdd,
   IoLogOut,
   IoClose,
+  IoCalendar,
 } from "react-icons/io5";
 import { FaUserFriends } from "react-icons/fa";
 import { PATHS } from "@/app/_config/routes";
@@ -28,6 +29,7 @@ const routeIcons: Record<string, any> = {
   Login: IoLogIn,
   Register: IoPersonAdd,
   Friend: FaUserFriends,
+  Event: IoCalendar,
 };
 
 interface SideBarProps {

@@ -12,6 +12,7 @@ export const PATHS = {
   TOP_UP: "/profile/top_up",
   HISTORY: "/profile/history",
   FRIEND: "/friend",
+  EVENT: "/events",
 };
 
 //* 定義需要什麽變量信息
@@ -25,6 +26,10 @@ export const ROUTES: RouteConfig[] = [
   {
     path: PATHS.STORE,
     name: "Store",
+  },
+  {
+    path: PATHS.EVENT,
+    name: "Event",
   },
   {
     path: PATHS.LIBRARY,
