@@ -143,7 +143,7 @@ export default function LibrarySearchBar() {
         </div>
 
         {/* Filter Button */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <button
             ref={buttonRef}
             onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -164,12 +164,12 @@ export default function LibrarySearchBar() {
               <>
                 {/* Backdrop for mobile */}
                 <div
-                  className="fixed inset-0 bg-black/50 z-[9998] sm:hidden"
+                  className="fixed inset-0 bg-black/50 z-9998 sm:hidden"
                   onClick={() => setIsFilterOpen(false)}
                 />
                 <div
                   ref={filterRef}
-                  className="fixed sm:absolute left-0 right-0 top-20 sm:top-full sm:left-auto sm:right-auto w-full sm:w-72 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-[9999] h-[calc(100vh-5rem)] sm:h-auto sm:max-h-96 overflow-y-auto"
+                  className="fixed sm:absolute left-0 right-0 top-20 sm:top-full sm:left-auto sm:right-auto w-full sm:w-72 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-9999 h-[calc(100vh-5rem)] sm:h-auto sm:max-h-96 overflow-y-auto"
                   style={
                     buttonRef.current && typeof window !== "undefined"
                       ? {

@@ -112,7 +112,7 @@ export default function Navigator() {
               >
                 {route.name}
                 <span
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 transition-all group-hover/link:w-full ${isActive ? "w-full" : ""}`}
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-linear-to-r from-blue-500 to-purple-500 transition-all group-hover/link:w-full ${isActive ? "w-full" : ""}`}
                 ></span>
               </Link>
             );

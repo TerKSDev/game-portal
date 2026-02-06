@@ -30,7 +30,7 @@ export default function Header() {
             size={44}
             className="text-blue-500 group-hover:text-blue-400 transition-colors"
           />
-          <h1 className="tracking-wider bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-2xl mb-0.5 drop-shadow-lg">
+          <h1 className="tracking-wider bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent text-2xl mb-0.5 drop-shadow-lg">
             GAME PORTAL
           </h1>
         </Link>
@@ -38,7 +38,7 @@ export default function Header() {
         <Navigator />
 
         {showSideBar && (
-          <div className="fixed top-0 left-0 flex flex-row z-[9999]">
+          <div className="fixed top-0 left-0 flex flex-row z-9999">
             <SideBar onClose={() => setShowSideBar(false)} />
 
             <div

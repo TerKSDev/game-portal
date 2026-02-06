@@ -204,10 +204,10 @@ function UserCard({
               alt={user.name || "User"}
               width={48}
               height={48}
-              className="rounded-full ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300 flex-shrink-0"
+              className="rounded-full ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300 shrink-0"
             />
           ) : (
-            <div className="w-12 h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300">
+            <div className="w-12 h-12 shrink-0 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300">
               <span className="text-lg font-bold text-white">
                 {user.name?.[0]?.toUpperCase() || "?"}
               </span>
@@ -267,7 +267,7 @@ function UserCard({
         <button
           onClick={() => onSendRequest(user.id)}
           disabled={sending === user.id}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/30 flex-shrink-0"
+          className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/30 shrink-0"
         >
           <FaUserPlus size={14} />
           <span className={showFullButton ? "" : "hidden sm:inline"}>

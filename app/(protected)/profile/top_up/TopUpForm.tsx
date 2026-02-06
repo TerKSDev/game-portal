@@ -164,7 +164,7 @@ export default function TopUpForm({ currentOrbs }: TopUpFormProps) {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-lg font-semibold text-white">Price:</span>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 RM {totalPrice.toFixed(2)}
               </span>
             </div>
@@ -188,7 +188,7 @@ export default function TopUpForm({ currentOrbs }: TopUpFormProps) {
         <button
           onClick={handleTopUp}
           disabled={isProcessing || !selectedAmount}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-gray-600 disabled:to-gray-500 disabled:cursor-not-allowed px-6 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 disabled:shadow-none"
+          className="w-full bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-gray-600 disabled:to-gray-500 disabled:cursor-not-allowed px-6 py-4 rounded-lg font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 disabled:shadow-none"
         >
           {isProcessing ? "Processing..." : "Proceed to Payment"}
         </button>

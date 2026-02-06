@@ -19,6 +19,14 @@ export default function ItemDetails({
     return () => clearTimeout(timer);
   }, [itemDetails.id]);
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <div
       className={`flex flex-col w-full flex-1 transition-opacity duration-300 ${
@@ -42,7 +50,9 @@ export default function ItemDetails({
             <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-gray-300 mb-4 sm:mb-6">
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs">Purchased Date</span>
-                <span className="font-medium">{itemDetails.purchasedAt}</span>
+                <span className="font-medium">
+                  {formatDate(itemDetails.purchasedAt)}
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs">Purchase Price</span>
