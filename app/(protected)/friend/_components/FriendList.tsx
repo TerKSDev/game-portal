@@ -109,12 +109,12 @@ export default function FriendList({
   if (filteredFriends.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-60 gap-6">
-        <FaUserFriends size={42} className="text-gray-600" />
+        <FaUserFriends size={48} className="text-zinc-500" />
         <div className="text-center">
-          <p className="text-gray-400 text-xl">
+          <p className="text-zinc-300 text-xl font-semibold">
             {searchQuery ? "No friends found" : "No friends yet"}
           </p>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-zinc-500 text-sm mt-1">
             {searchQuery
               ? "Try a different search term"
               : "Start adding friends to connect!"}
@@ -129,10 +129,10 @@ export default function FriendList({
       {filteredFriends.map((friend) => (
         <div
           key={friend.id}
-          className="group bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
+          className="group bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-5 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300"
         >
-          <div 
-            className={`flex items-center gap-4 ${friend.uid ? 'cursor-pointer' : ''}`}
+          <div
+            className={`flex items-center gap-4 ${friend.uid ? "cursor-pointer" : ""}`}
             onClick={() => friend.uid && router.push(`/profile/${friend.uid}`)}
           >
             <div className="relative">
@@ -142,10 +142,10 @@ export default function FriendList({
                   alt={friend.name || "User"}
                   width={56}
                   height={56}
-                  className="rounded-full ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300"
+                  className="rounded-full ring-2 ring-zinc-700 group-hover:ring-blue-500/50 transition-all duration-300"
                 />
               ) : (
-                <div className="w-14 h-14 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300">
+                <div className="w-14 h-14 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-zinc-700 group-hover:ring-blue-500/50 transition-all duration-300">
                   <span className="text-xl font-bold text-white">
                     {friend.name?.[0]?.toUpperCase() || "?"}
                   </span>
@@ -160,15 +160,15 @@ export default function FriendList({
             </div>
 
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-white truncate group-hover:text-blue-400 transition-colors">
+              <h3 className="font-semibold text-zinc-200 truncate group-hover:text-blue-400 transition-colors">
                 {friend.name || "Unnamed"}
               </h3>
-              <p className="text-sm text-gray-500 truncate">{friend.email}</p>
+              <p className="text-sm text-zinc-500 truncate">{friend.email}</p>
               <p
                 className={`text-xs mt-1 ${
                   friend.userStatus === "Online"
                     ? "text-green-400"
-                    : "text-gray-500"
+                    : "text-zinc-500"
                 }`}
               >
                 {getStatusText(friend.userStatus)}
@@ -176,11 +176,11 @@ export default function FriendList({
             </div>
           </div>
 
-          <div className="flex gap-2 mt-4 pt-4 border-t border-gray-700/50">
+          <div className="flex gap-2 mt-4 pt-4 border-t border-zinc-700/50">
             <button
               onClick={() => handleRemoveFriend(friend.id)}
               disabled={loading === friend.id}
-              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-500/10 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/20 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-500/10 text-red-400 border border-red-500/30 rounded-xl hover:bg-red-500/20 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm font-bold shadow-lg"
             >
               <FaUserMinus size={14} />
               {loading === friend.id ? "..." : "Remove"}
@@ -188,7 +188,7 @@ export default function FriendList({
             <button
               onClick={() => handleBlockUser(friend.id)}
               disabled={loading === friend.id}
-              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gray-700/50 text-gray-400 border border-gray-600/50 rounded-lg hover:bg-gray-600/50 hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm"
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-zinc-700/50 text-zinc-400 border border-zinc-600/50 rounded-xl hover:bg-zinc-600/50 hover:text-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm font-bold shadow-lg"
             >
               <FaBan size={14} />
               Block

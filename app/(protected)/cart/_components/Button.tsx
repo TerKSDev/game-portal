@@ -17,7 +17,7 @@ export function RemoveButton({ id }: { id: string }) {
   return (
     <button
       onClick={handleRemove}
-      className="text-red-400 hover:text-red-300 text-sm px-3 py-1.5 rounded-lg hover:bg-red-500/10 transition-all self-start border border-transparent hover:border-red-500/30 font-medium ml-auto"
+      className="text-red-400 hover:text-red-300 text-sm px-4 py-2 rounded-xl hover:bg-red-500/10 transition-all self-start border border-transparent hover:border-red-500/30 font-bold ml-auto shadow-lg"
     >
       Remove
     </button>
@@ -113,7 +113,7 @@ export function CheckoutButton({
   return (
     <button
       onClick={() => handleCheckout()}
-      className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 w-full"
+      className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-blue-500/50 w-full"
     >
       Proceed to Checkout
     </button>

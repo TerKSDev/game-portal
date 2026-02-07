@@ -1,12 +1,11 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
+/* 1. 設定變數與主題 (保持不變) */
 :root {
-  --background: #0a0e27;
-  --background-secondary: #0f172a;
+  --background: #182234;
   --foreground: #ffffff;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -16,91 +15,82 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* 🚀 關鍵修改 1：鎖死 html，禁止它滾動 */
+html {
+  height: 100%; /* 佔滿視窗 */
+  overflow: hidden; /* ❌ 禁止 html 滾動，這樣就不會出現那個醜醜的視窗捲軸 */
+  background-color: #182234; /* 設定底色，以防萬一 */
+}
+
+/* 🚀 關鍵修改 2：把滾動功能和背景移給 body */
 body {
-  background: linear-gradient(135deg, #0a0e27 0%, #1e293b 100%);
-  background-attachment: fixed;
+  height: 100%; /* body 佔滿 html */
+  overflow-y: auto; /* ✅ 讓 body 自己處理滾動 */
+  
+  /* 背景設定在 body 上 */
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at bottom,
+      rgba(139, 92, 246, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(135deg, #0a0e27 0%, #1e293b 50%, #0f172a 100%);
+    
+  background-attachment: fixed; /* 讓背景固定不隨滾動移動 */
   color: var(--foreground);
-  font-family:
-    var(--font-geist-sans),
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  font-family: var(--font-geist-sans), sans-serif;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
-  scrollbar-gutter: stable;
+  
+  /* 確保背景延伸到邊框底下 (這是透明 Scrollbar 能透出背景的關鍵) */
+  background-clip: border-box; 
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
+/* ... 動畫部分 (保持不變) ... */
+@keyframes slide-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.animate-slide-in { animation: slide-in 0.3s ease-out; }
+.animate-fade-in { animation: fade-in 0.5s ease-out; }
+.animate-bounce { animation: bounce 2s ease-in-out infinite; }
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.delay-75 { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+@layer utilities {
+  /* 針對 Webkit 瀏覽器 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  /* 軌道 (Track) */
+  ::-webkit-scrollbar-track {
+    /* 因為 Scrollbar 現在在 body 裡面，body 的背景會自動透上來 */
+    /* 所以這裡設透明就真的會變透明，不會變黑了 */
+    background: transparent !important; 
+  }
 
-::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
+  /* 捲軸本體 (Thumb) */
+  ::-webkit-scrollbar-thumb {
+    background-color: #3f3f46; /* 灰色條 */
+    border-radius: 9999px;
+    
+    /* 這裡再次使用透明邊框 */
+    /* 因為背景已經在下面了，透明邊框透出來的就是你的漸層背景 */
+    border: 2px solid transparent !important; 
+    
+    background-clip: content-box;
+  }
 
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.4);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.6);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: rgba(59, 130, 246, 0.8);
-}
-
-/* Firefox Scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(59, 130, 246, 0.4) transparent;
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #71717a;
+  }
 }

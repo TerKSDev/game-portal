@@ -49,6 +49,8 @@ export async function AddToWishlist({ game }: AddProps) {
         id: wishtlist.id,
       },
     });
+
+    return { success: false };
   } catch (error) {
     console.log("Error adding to wishlist: ", error);
     redirect(PATHS.LOGIN);
@@ -83,6 +85,12 @@ export async function AddToCart({ game }: AddProps) {
     return { success: true };
   }
 
-  // Item already in cart
-  return { success: false, message: "Item already in cart" };
+  // Remove from cart
+  await prisma.cartItem.delete({
+    where: {
+      id: cart.id,
+    },
+  });
+
+  return { success: false };
 }

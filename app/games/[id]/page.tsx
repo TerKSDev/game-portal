@@ -1,4 +1,3 @@
-import Header from "@/app/components/Header";
 import GameDetails from "./_components/GameDetails";
 import prisma from "@/lib/prisma";
 import { GetGameDetails } from "@/lib/game";
@@ -103,7 +102,7 @@ export default async function Game({ params }: GameDetailsProps) {
   }
 
   return (
-    <div className="w-full min-h-screen text-white pt-32 px-4 sm:px-6 lg:px-8">
+    <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-6 lg:px-8 py-8">
       <GameDetails
         key={`${gameData.game.id}-${gameData.game.name}-${gameData.game.publisher} `}
         game={gameData.game}
@@ -112,6 +111,6 @@ export default async function Game({ params }: GameDetailsProps) {
         wishlistInitialState={initialWishlistState}
         libraryInitialState={initialLibraryState}
       />
-    </div>
+    </main>
   );
 }

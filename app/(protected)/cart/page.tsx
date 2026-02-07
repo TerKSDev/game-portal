@@ -4,6 +4,7 @@ import SummaryCard from "./_components/SummaryCard";
 import { auth } from "@/lib/actions/auth";
 import { PATHS } from "@/app/_config/routes";
 import { GetGamePrice } from "@/lib/game";
+import Link from "next/link";
 
 import { FaShoppingCart } from "react-icons/fa";
 import prisma from "@/lib/prisma";
@@ -61,13 +62,22 @@ export default async function Cart() {
   }, 0);
 
   return (
-    <div className="flex flex-col flex-1 pt-20 sm:pt-24 lg:pt-32 px-3 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
-      <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent max-sm:mt-6">
-          Shopping Cart
-        </h1>
+    <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex flex-col w-full max-w-7xl gap-6">
+        {/* Header Section */}
+        <div className="relative">
+          <h1 className="text-3xl sm:text-5xl font-black bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Shopping Cart
+          </h1>
+          <p className="text-zinc-500 mt-2 text-sm sm:text-base">
+            {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
+            your cart
+          </p>
+        </div>
+
+        {/* Cart Items */}
         {cartItems.length !== 0 ? (
-          <div className="flex flex-1 flex-col lg:flex-row gap-4 sm:gap-6">
+          <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex flex-col flex-2 gap-4">
               {cartItems.map((item) => {
                 return <CartItem key={item.id} item={item} />;
@@ -77,17 +87,27 @@ export default async function Cart() {
             <SummaryCard totalAmount={totalAmount} userOrbs={userOrbs} />
           </div>
         ) : (
-          <div className="flex flex-col flex-1 items-center justify-center min-h-100 gap-8">
-            <FaShoppingCart size={42} />
-            <div className="text-center gap-1.5">
-              <p className="text-gray-400 text-xl">Your cart is empty</p>
-              <p className="text-gray-500 text-sm">
-                Add some games to get started!
-              </p>
+          <div className="flex items-center justify-center min-h-100 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-12 mt-12">
+            <div className="flex flex-col text-center justify-center items-center gap-6">
+              <div className="text-6xl">🛒</div>
+              <div className="space-y-2">
+                <p className="text-zinc-400 text-xl font-medium">
+                  Your cart is empty
+                </p>
+                <p className="text-zinc-500 text-sm">
+                  Add some games to get started!
+                </p>
+              </div>
+              <Link
+                href={PATHS.STORE}
+                className="inline-block bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-blue-500/50"
+              >
+                Browse Store
+              </Link>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

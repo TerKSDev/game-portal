@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SessionComponent from "@/app/components/SessionProvider";
 
 import "./globals.css";
-import Header from "@/app/components/Header";
+import SideNav from "@/app/components/SideNav";
+import MobileNav from "@/app/components/MobileNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -95,12 +96,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
         <SessionComponent>
-          <Header />
+          <SideNav />
+          <MobileNav />
 
-          <main className="w-screen h-full min-h-screen">{children}</main>
+          <main className="flex-1 md:ml-72 w-full min-h-screen overflow-y-auto pt-16 md:pt-0">
+            {children}
+          </main>
         </SessionComponent>
       </body>
     </html>

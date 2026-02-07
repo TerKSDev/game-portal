@@ -34,13 +34,18 @@ export default async function TopUp() {
   const currentOrbs = user.orbs;
 
   return (
-    <div className="flex flex-1 pt-32 px-4 sm:px-6 lg:px-8 pb-12 min-h-screen">
-      <div className="max-w-5xl mx-auto w-full">
-        <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          Top Up Orbs
-        </h1>
+    <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex flex-col w-full max-w-5xl">
+        <div className="mb-6">
+          <h1 className="text-3xl sm:text-5xl font-black text-zinc-200">
+            Top Up Orbs
+          </h1>
+          <p className="text-zinc-500 mt-2 text-sm sm:text-base">
+            Add orbs to your Game Portal wallet
+          </p>
+        </div>
         <TopUpForm currentOrbs={currentOrbs} />
       </div>
-    </div>
+    </main>
   );
 }

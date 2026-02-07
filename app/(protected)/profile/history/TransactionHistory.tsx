@@ -45,26 +45,26 @@ export default function TransactionHistory({
   const getTypeIcon = (type: string) => {
     switch (type) {
       case "Purchase":
-        return <FaShoppingCart className="text-blue-500" size={20} />;
+        return <FaShoppingCart className="text-zinc-400" size={20} />;
       case "Top_Up":
         return <FaCoins className="text-yellow-500" size={20} />;
       case "Refund":
-        return <FaUndo className="text-green-500" size={20} />;
+        return <FaUndo className="text-emerald-500" size={20} />;
       default:
-        return <FaMoneyBillWave className="text-gray-500" size={20} />;
+        return <FaMoneyBillWave className="text-zinc-500" size={20} />;
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
       case "Purchase":
-        return "text-blue-400";
+        return "text-zinc-200";
       case "Top_Up":
         return "text-yellow-400";
       case "Refund":
-        return "text-green-400";
+        return "text-emerald-400";
       default:
-        return "text-gray-400";
+        return "text-zinc-400";
     }
   };
 
@@ -72,7 +72,7 @@ export default function TransactionHistory({
     const statusLower = status.toLowerCase();
     if (statusLower === "success" || statusLower === "completed") {
       return (
-        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400 border border-green-500/30">
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
           Success
         </span>
       );
@@ -90,7 +90,7 @@ export default function TransactionHistory({
       );
     }
     return (
-      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-500/20 text-gray-400 border border-gray-500/30">
+      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-zinc-500/20 text-zinc-400 border border-zinc-500/30">
         {status}
       </span>
     );
@@ -110,10 +110,10 @@ export default function TransactionHistory({
   if (transactions.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-96 gap-8">
-        <FaMoneyBillWave size={64} className="text-gray-600" />
+        <FaMoneyBillWave size={64} className="text-zinc-600" />
         <div className="text-center gap-1.5">
-          <p className="text-gray-400 text-xl">No transaction history</p>
-          <p className="text-gray-500 text-sm">
+          <p className="text-zinc-400 text-xl">No transaction history</p>
+          <p className="text-zinc-500 text-sm">
             Your purchases and top-ups will appear here
           </p>
         </div>
@@ -126,7 +126,7 @@ export default function TransactionHistory({
       {transactions.map((transaction) => (
         <div
           key={transaction.id}
-          className="bg-gray-900/80 backdrop-blur-md border border-gray-700/50 rounded-xl shadow-2xl hover:shadow-lg hover:border-gray-600/50 transition-all duration-300"
+          className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl shadow-2xl hover:border-zinc-700/80 transition-all duration-300"
         >
           <div className="p-6">
             <div className="flex items-start justify-between gap-4">
@@ -147,12 +147,12 @@ export default function TransactionHistory({
                   </div>
 
                   {transaction.description && (
-                    <p className="text-gray-400 text-sm mb-2 line-clamp-2">
+                    <p className="text-zinc-400 text-sm mb-2 line-clamp-2">
                       {transaction.description}
                     </p>
                   )}
 
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-zinc-500 text-xs">
                     {formatDate(transaction.createdAt)}
                   </p>
                 </div>
@@ -178,20 +178,20 @@ export default function TransactionHistory({
                     )}
                     {transaction.cashAmount === null &&
                       transaction.amount === 0 && (
-                        <p className="text-sm text-gray-500">Free</p>
+                        <p className="text-sm text-zinc-500">Free</p>
                       )}
                   </div>
                 ) : transaction.type === "Top_Up" ? (
                   <div className="space-y-1">
                     {transaction.cashAmount !== null &&
                       transaction.cashAmount > 0 && (
-                        <p className="text-xl font-bold text-gray-400">
+                        <p className="text-xl font-bold text-zinc-400">
                           RM {transaction.cashAmount.toFixed(2)}
                         </p>
                       )}
                     <div className="flex items-center justify-end gap-1.5">
                       <FaCoins className="text-yellow-500" size={16} />
-                      <p className="text-xl font-bold text-green-400">
+                      <p className="text-xl font-bold text-emerald-400">
                         + {transaction.amount.toLocaleString()}
                       </p>
                     </div>
@@ -200,14 +200,14 @@ export default function TransactionHistory({
                   <div className="space-y-1">
                     {transaction.cashAmount !== null &&
                       transaction.cashAmount > 0 && (
-                        <p className="text-xl font-bold text-green-400">
+                        <p className="text-xl font-bold text-emerald-400">
                           + RM {transaction.cashAmount.toFixed(2)}
                         </p>
                       )}
                     {transaction.amount > 0 && (
                       <div className="flex items-center justify-end gap-1.5">
                         <FaCoins className="text-yellow-500" size={14} />
-                        <p className="text-sm font-semibold text-green-400">
+                        <p className="text-sm font-semibold text-emerald-400">
                           + {transaction.amount.toLocaleString()}
                         </p>
                       </div>
@@ -224,7 +224,7 @@ export default function TransactionHistory({
                 <div className="mt-4">
                   <button
                     onClick={() => toggleExpand(transaction.id)}
-                    className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="flex items-center gap-2 text-sm text-zinc-300 hover:text-zinc-200 transition-colors"
                   >
                     {expandedId === transaction.id ? (
                       <>
@@ -243,11 +243,11 @@ export default function TransactionHistory({
                   </button>
 
                   {expandedId === transaction.id && (
-                    <div className="mt-4 pt-4 border-t border-gray-700/50 space-y-3">
+                    <div className="mt-4 pt-4 border-t border-zinc-800/80 space-y-3">
                       {transaction.purchasedGames.map((game) => (
                         <div
                           key={game.gameId}
-                          className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg"
+                          className="flex items-center gap-3 p-3 bg-zinc-800/50 rounded-xl"
                         >
                           <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                             <Image
@@ -262,7 +262,7 @@ export default function TransactionHistory({
                             <p className="text-white font-medium truncate">
                               {game.name}
                             </p>
-                            <p className="text-gray-400 text-sm">
+                            <p className="text-zinc-400 text-sm">
                               {game.price}
                             </p>
                           </div>

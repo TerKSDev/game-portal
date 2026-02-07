@@ -96,37 +96,37 @@ export default function SearchUsers({ onUpdate }: SearchUsersProps = {}) {
   return (
     <div className="space-y-6">
       <div className="relative">
-        <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+        <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
         <input
           type="text"
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by username or UID..."
-          className="w-full pl-11 pr-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-gray-500 transition-all duration-300 outline-none"
+          className="w-full pl-11 pr-4 py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-zinc-500 transition-all duration-300 outline-none"
         />
       </div>
 
       {loading && (
         <div className="flex items-center justify-center py-12">
-          <div className="text-gray-400 animate-pulse">Searching...</div>
+          <div className="text-zinc-400 animate-pulse">Searching...</div>
         </div>
       )}
 
       {!loading && query.trim().length >= 2 && results.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12 gap-4">
-          <FaSearch size={32} className="text-gray-600" />
-          <p className="text-gray-500">No users found matching "{query}"</p>
+          <FaSearch size={32} className="text-zinc-500" />
+          <p className="text-zinc-400">No users found matching "{query}"</p>
         </div>
       )}
 
       {!loading && query.trim().length < 2 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-300 mb-4">
+          <h3 className="text-lg font-semibold text-zinc-300 mb-4">
             Suggested Friends
           </h3>
           {loadingSuggestions ? (
             <div className="flex items-center justify-center py-12">
-              <div className="text-gray-400 animate-pulse">
+              <div className="text-zinc-400 animate-pulse">
                 Loading suggestions...
               </div>
             </div>
@@ -144,8 +144,8 @@ export default function SearchUsers({ onUpdate }: SearchUsersProps = {}) {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-12 gap-4">
-              <FaUserPlus size={32} className="text-gray-600" />
-              <p className="text-gray-500">No suggestions available</p>
+              <FaUserPlus size={32} className="text-zinc-500" />
+              <p className="text-zinc-400">No suggestions available</p>
             </div>
           )}
         </div>
@@ -153,7 +153,7 @@ export default function SearchUsers({ onUpdate }: SearchUsersProps = {}) {
 
       {results.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-300 mb-4">
+          <h3 className="text-lg font-semibold text-zinc-300 mb-4">
             Search Results
           </h3>
           <div className="space-y-3">
@@ -195,7 +195,7 @@ function UserCard({
   const mutualFriends = user.mutualFriends || [];
 
   return (
-    <div className="group bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+    <div className="group bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-4 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4 flex-1 min-w-0">
           {user.image ? (
@@ -204,10 +204,10 @@ function UserCard({
               alt={user.name || "User"}
               width={48}
               height={48}
-              className="rounded-full ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300 shrink-0"
+              className="rounded-full ring-2 ring-zinc-700 group-hover:ring-blue-500/50 transition-all duration-300 shrink-0"
             />
           ) : (
-            <div className="w-12 h-12 shrink-0 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-gray-700 group-hover:ring-blue-500/50 transition-all duration-300">
+            <div className="w-12 h-12 shrink-0 rounded-full bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center ring-2 ring-zinc-700 group-hover:ring-blue-500/50 transition-all duration-300">
               <span className="text-lg font-bold text-white">
                 {user.name?.[0]?.toUpperCase() || "?"}
               </span>
@@ -215,11 +215,11 @@ function UserCard({
           )}
 
           <div className="flex-1 min-w-0">
-            <h4 className="font-semibold text-white group-hover:text-blue-400 transition-colors truncate">
+            <h4 className="font-semibold text-zinc-200 group-hover:text-blue-400 transition-colors truncate">
               {user.name || "Unnamed"}
             </h4>
             {showUid && user.uid && (
-              <p className="text-xs text-gray-400 font-mono mt-0.5">
+              <p className="text-xs text-zinc-400 font-mono mt-0.5">
                 UID: {user.uid}
               </p>
             )}
@@ -232,7 +232,7 @@ function UserCard({
                     {mutualFriends.slice(0, 3).map((friend) => (
                       <div
                         key={friend.id}
-                        className="w-5 h-5 rounded-full border-2 border-gray-800 overflow-hidden bg-gray-700 shrink-0"
+                        className="w-5 h-5 rounded-full border-2 border-zinc-800 overflow-hidden bg-zinc-700 shrink-0"
                       >
                         {friend.image ? (
                           <Image
@@ -252,7 +252,7 @@ function UserCard({
                       </div>
                     ))}
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-zinc-400">
                     {user.mutualFriendsCount}{" "}
                     {user.mutualFriendsCount === 1
                       ? "mutual friend"
@@ -267,7 +267,7 @@ function UserCard({
         <button
           onClick={() => onSendRequest(user.id)}
           disabled={sending === user.id}
-          className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/30 shrink-0"
+          className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-blue-500/30 shrink-0 font-bold"
         >
           <FaUserPlus size={14} />
           <span className={showFullButton ? "" : "hidden sm:inline"}>

@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma";
 
 import { PATHS } from "@/app/_config/routes";
 import ProfileForm from "./ProfileForm";
-import Header from "@/app/components/Header";
 import { id } from "zod/locales";
 import { userAgent } from "next/server";
 
@@ -101,7 +100,7 @@ export default async function Profile() {
   };
 
   return (
-    <div className="flex flex-1 pt-24 sm:pt-32 px-2 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
+    <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-6 lg:px-8 py-8">
       <ProfileForm
         key={user?.name}
         userData={data}
@@ -109,6 +108,6 @@ export default async function Profile() {
         friendsData={friends}
         totalFriends={totalFriends}
       />
-    </div>
+    </main>
   );
 }

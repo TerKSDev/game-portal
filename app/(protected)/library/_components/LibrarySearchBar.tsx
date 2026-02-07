@@ -115,13 +115,13 @@ export default function LibrarySearchBar() {
   };
 
   return (
-    <div className="px-3 sm:px-2 mb-3 sm:mb-4 flex flex-row justify-center w-full">
+    <div className="flex flex-row justify-center w-full">
       <div className="flex gap-2 relative w-full">
-        <div className="relative flex flex-1 items-center bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-700 focus-within:border-blue-500 focus-within:shadow-lg focus-within:shadow-blue-500/20 transition-all duration-300">
-          <IoIosSearch size={18} className="text-gray-400 ml-3" />
+        <div className="relative flex flex-1 items-center bg-zinc-800/80 backdrop-blur-sm rounded-xl border border-zinc-700 focus-within:border-blue-500 focus-within:shadow-lg focus-within:shadow-blue-500/20 transition-all duration-300">
+          <IoIosSearch size={18} className="text-zinc-400 ml-3" />
           <input
             type="text"
-            className="flex flex-1 px-3 py-2 text-sm outline-none bg-transparent placeholder:text-gray-500 text-white"
+            className="flex flex-1 px-3 py-2.5 text-sm outline-none bg-transparent placeholder:text-zinc-500 text-white"
             placeholder="Search your library..."
             value={searchValue}
             onChange={(e) => {
@@ -131,14 +131,14 @@ export default function LibrarySearchBar() {
           />
           <button
             onClick={handleClear}
-            className={`absolute right-3 p-1 hover:bg-gray-700 rounded-full transition-all ${
+            className={`absolute right-3 p-1 hover:bg-zinc-700 rounded-full transition-all ${
               searchValue
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
             aria-label="Clear search"
           >
-            <IoClose size={18} className="text-gray-400 hover:text-white" />
+            <IoClose size={18} className="text-zinc-400 hover:text-white" />
           </button>
         </div>
 
@@ -147,10 +147,10 @@ export default function LibrarySearchBar() {
           <button
             ref={buttonRef}
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className={`flex items-center justify-center gap-1.5 px-3 py-2.5 bg-gray-800/80 backdrop-blur-sm border rounded-lg hover:shadow-lg transition-all duration-300 ${
+            className={`flex items-center justify-center gap-1.5 px-3 py-2.5 bg-zinc-800/80 backdrop-blur-sm border rounded-xl hover:shadow-lg transition-all duration-300 ${
               hasActiveFilters
                 ? "border-blue-500 text-blue-400 hover:border-blue-400 hover:shadow-blue-500/20"
-                : "border-gray-700 text-gray-300 hover:text-white hover:border-blue-500 hover:shadow-blue-500/20"
+                : "border-zinc-700 text-zinc-300 hover:text-white hover:border-blue-500 hover:shadow-blue-500/20"
             }`}
             aria-label="Filter and sort"
           >
@@ -169,7 +169,7 @@ export default function LibrarySearchBar() {
                 />
                 <div
                   ref={filterRef}
-                  className="fixed sm:absolute left-0 right-0 top-20 sm:top-full sm:left-auto sm:right-auto w-full sm:w-72 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-9999 h-[calc(100vh-5rem)] sm:h-auto sm:max-h-96 overflow-y-auto"
+                  className="fixed sm:absolute left-0 right-0 top-20 sm:top-full sm:left-auto sm:right-auto w-full sm:w-72 bg-zinc-800/95 backdrop-blur-md border-0 sm:border border-zinc-700 sm:rounded-xl shadow-2xl shadow-black/50 z-9999 h-[calc(100vh-5rem)] sm:h-auto sm:max-h-96 overflow-y-auto"
                   style={
                     buttonRef.current && typeof window !== "undefined"
                       ? {
@@ -186,7 +186,7 @@ export default function LibrarySearchBar() {
                   }
                 >
                   {/* Header */}
-                  <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-3 sm:p-3 flex items-center justify-between z-10">
+                  <div className="sticky top-0 bg-zinc-800/95 backdrop-blur-md border-b border-zinc-700 p-3 sm:p-3 flex items-center justify-between z-10">
                     <h3 className="text-sm font-bold text-white">
                       Sort & Filter
                     </h3>
@@ -202,15 +202,15 @@ export default function LibrarySearchBar() {
                       )}
                       <button
                         onClick={() => setIsFilterOpen(false)}
-                        className="p-1 hover:bg-gray-700 rounded-lg"
+                        className="p-1 hover:bg-zinc-700 rounded-lg"
                       >
-                        <IoClose size={20} className="text-gray-400" />
+                        <IoClose size={20} className="text-zinc-400" />
                       </button>
                     </div>
                   </div>
 
                   {/* Sort Options */}
-                  <div className="p-3 border-b border-gray-700">
+                  <div className="p-3 border-b border-zinc-700">
                     <div className="flex items-center gap-2 mb-2">
                       <IoTrendingUpOutline
                         size={16}
@@ -231,7 +231,7 @@ export default function LibrarySearchBar() {
                             className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${
                               isActive
                                 ? "bg-blue-600 text-white"
-                                : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                                : "bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700"
                             }`}
                           >
                             <Icon size={16} />
@@ -243,7 +243,7 @@ export default function LibrarySearchBar() {
                   </div>
 
                   {/* Date Filter */}
-                  <div className="p-3 border-b border-gray-700">
+                  <div className="p-3 border-b border-zinc-700">
                     <div className="flex items-center gap-2 mb-2">
                       <IoCalendarOutline size={16} className="text-blue-400" />
                       <h4 className="font-semibold text-white text-sm">
@@ -256,7 +256,7 @@ export default function LibrarySearchBar() {
                         className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
                           currentDateFilter === "week"
                             ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                            : "bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700"
                         }`}
                       >
                         Last Week
@@ -268,7 +268,7 @@ export default function LibrarySearchBar() {
                         className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
                           currentDateFilter === "month"
                             ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                            : "bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700"
                         }`}
                       >
                         Last Month
@@ -280,7 +280,7 @@ export default function LibrarySearchBar() {
                         className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
                           currentDateFilter === "3months"
                             ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                            : "bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700"
                         }`}
                       >
                         Last 3 Months
@@ -290,7 +290,7 @@ export default function LibrarySearchBar() {
                         className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
                           currentDateFilter === "year"
                             ? "bg-blue-600 text-white"
-                            : "bg-gray-700/50 text-gray-300 hover:bg-gray-700"
+                            : "bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700"
                         }`}
                       >
                         Last Year
@@ -298,7 +298,7 @@ export default function LibrarySearchBar() {
                       {currentDateFilter && (
                         <button
                           onClick={() => handleFilterChange("dateFilter", "")}
-                          className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700/50 text-gray-300 hover:bg-gray-700 transition-all"
+                          className="w-full px-3 py-2 rounded-lg text-sm bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700 transition-all"
                         >
                           Clear Date Filter
                         </button>

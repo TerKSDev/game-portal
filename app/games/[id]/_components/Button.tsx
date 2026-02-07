@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/app/_config/routes";
 import { AddToCart, AddToWishlist, AddProps } from "./buttonOnClick";
@@ -14,6 +14,11 @@ type ButtonProps = AddProps & {
 
 export function AddToCartButton({ game, initialState = false }: ButtonProps) {
   const [isCartAdded, setIsCartAdded] = useState(initialState);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsCartAdded(initialState);
+  }, [initialState]);
 
   const handleWishlistButtonClick = async () => {
     try {
@@ -21,11 +26,14 @@ export function AddToCartButton({ game, initialState = false }: ButtonProps) {
 
       if (result.success) {
         alert("Add to cart successfully!");
-        setIsCartAdded(true);
       } else {
         alert("Removed from cart successfully!");
-        setIsCartAdded(false);
       }
+      router.refresh();
+      // Trigger sidebar refresh after a small delay to ensure DB update completes
+      setTimeout(() => {
+        window.dispatchEvent(new Event("refreshUserStats"));
+      }, 100);
     } catch (error) {
       console.log("Error adding to cart:", error);
     }
@@ -35,10 +43,10 @@ export function AddToCartButton({ game, initialState = false }: ButtonProps) {
     <button
       type="button"
       onClick={() => handleWishlistButtonClick()}
-      className={`flex flex-row gap-x-3 w-full py-3 rounded-lg justify-center items-center text-sm font-semibold transition-all duration-300 shadow-lg ${
+      className={`flex flex-row gap-x-3 w-full py-3 rounded-xl justify-center items-center text-sm font-bold transition-all duration-300 shadow-lg ${
         isCartAdded
-          ? "bg-gray-700 hover:bg-gray-600 border border-gray-600"
-          : "bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 hover:shadow-blue-500/50"
+          ? "bg-zinc-700 hover:bg-zinc-600 border border-zinc-600"
+          : "bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border border-blue-500/30"
       }`}
     >
       <FaShoppingCart size={16} />
@@ -52,6 +60,11 @@ export function AddToWishlistButton({
   initialState = false,
 }: ButtonProps) {
   const [isWishlistAdded, setIsWishlistAdded] = useState(initialState);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsWishlistAdded(initialState);
+  }, [initialState]);
 
   const handleWishlistButtonClick = async () => {
     try {
@@ -59,11 +72,14 @@ export function AddToWishlistButton({
 
       if (result && result.success) {
         alert("Add to wishlist successfully!");
-        setIsWishlistAdded(true);
       } else {
         alert("Removed from wishlist successfully!");
-        setIsWishlistAdded(false);
       }
+      router.refresh();
+      // Trigger sidebar refresh after a small delay to ensure DB update completes
+      setTimeout(() => {
+        window.dispatchEvent(new Event("refreshUserStats"));
+      }, 100);
     } catch (error) {
       console.log("Error adding to wishlist:", error);
     }
@@ -75,10 +91,10 @@ export function AddToWishlistButton({
       onClick={() => {
         handleWishlistButtonClick();
       }}
-      className={`flex flex-row py-3 items-center justify-center rounded-lg w-full gap-x-3 text-sm font-semibold transition-all duration-300 shadow-lg ${
+      className={`flex flex-row py-3 items-center justify-center rounded-xl w-full gap-x-3 text-sm font-bold transition-all duration-300 shadow-lg ${
         isWishlistAdded
-          ? "bg-gray-700 hover:bg-gray-600 border border-gray-600"
-          : "bg-linear-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 hover:shadow-yellow-500/50"
+          ? "bg-zinc-700 hover:bg-zinc-600 border border-zinc-600"
+          : "bg-linear-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 border border-orange-500/30"
       }`}
     >
       {isWishlistAdded ? (
@@ -97,7 +113,7 @@ export function PurchasedButton() {
   return (
     <button
       onClick={() => router.push(PATHS.LIBRARY)}
-      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 border border-green-500/50 flex flex-row gap-x-3 py-3 rounded-lg justify-center items-center text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50"
+      className="w-full bg-zinc-700 hover:bg-zinc-600 border border-zinc-600 flex flex-row gap-x-3 py-3 rounded-xl justify-center items-center text-sm font-bold transition-all duration-300 shadow-lg"
     >
       <BiSolidPurchaseTag size={18} />
       <p>Purchased</p>

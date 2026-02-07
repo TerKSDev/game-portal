@@ -80,11 +80,16 @@ export default function FriendPage() {
   ];
 
   return (
-    <div className="flex flex-col flex-1 pt-20 sm:pt-24 lg:pt-32 px-3 sm:px-4 lg:px-8 pb-8 sm:pb-12 min-h-screen">
+    <main className="py-8 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="max-w-6xl mx-auto w-full">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          Friends
-        </h1>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Friends
+          </h1>
+          <p className="text-zinc-400 mt-2">
+            Manage your friends and connections
+          </p>
+        </div>
 
         {/* Tab Navigation */}
         <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
@@ -95,10 +100,10 @@ export default function FriendPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-300 ${
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-all duration-300 ${
                   isActive
                     ? "bg-blue-600/20 text-blue-400 border border-blue-500/50 shadow-lg shadow-blue-500/20"
-                    : "bg-gray-800/50 text-gray-400 border border-gray-700/50 hover:bg-gray-700/50 hover:text-gray-200 hover:border-gray-600"
+                    : "bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:bg-zinc-700/50 hover:text-zinc-200 hover:border-zinc-600"
                 }`}
               >
                 <Icon size={16} />
@@ -108,7 +113,7 @@ export default function FriendPage() {
                     className={`px-2 py-0.5 text-xs rounded-full ${
                       isActive
                         ? "bg-blue-500/30 text-blue-300"
-                        : "bg-gray-700 text-gray-400"
+                        : "bg-zinc-700 text-zinc-400"
                     }`}
                   >
                     {tab.count}
@@ -127,13 +132,13 @@ export default function FriendPage() {
           {activeTab === "friends" && (
             <div className="space-y-4">
               <div className="relative">
-                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search my friends..."
-                  className="w-full pl-11 pr-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-gray-500 transition-all duration-300 outline-none"
+                  className="w-full pl-11 pr-4 py-3 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-zinc-500 transition-all duration-300 outline-none"
                 />
               </div>
               <FriendList
@@ -155,6 +160,6 @@ export default function FriendPage() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

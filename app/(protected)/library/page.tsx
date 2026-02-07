@@ -137,65 +137,103 @@ export default async function Library(props: PageProps) {
   return (
     <>
       {showSuccess && <PaymentSuccess />}
-      <div className="flex flex-col lg:flex-row flex-1 pt-20 sm:pt-24 min-h-screen">
-        <div className="flex w-full lg:w-80 flex-col bg-gray-900/80 backdrop-blur-md border-b lg:border-b-0 lg:border-r border-gray-700/50 py-3 sm:py-4 overflow-y-auto shadow-2xl max-h-60 lg:max-h-none">
-          <LibrarySearchBar />
-          <div className="flex flex-col">
-            {sortedItems.length > 0 ? (
-              sortedItems.map((item) => {
-                const isSelected = selectedItem?.id === item.id;
-                const linkParams = new URLSearchParams();
-                linkParams.set("id", item.id);
-                if (searchQuery) {
-                  linkParams.set("query", searchQuery);
-                }
-                if (sortBy && sortBy !== "purchasedAt-desc") {
-                  linkParams.set("sort", sortBy);
-                }
-                if (dateFilter) {
-                  linkParams.set("dateFilter", dateFilter);
-                }
-                if (priceFilter) {
-                  linkParams.set("priceFilter", priceFilter);
-                }
-                return (
-                  <Link
-                    key={item.id}
-                    href={PATHS.LIBRARY + `?${linkParams.toString()}`}
-                    className={`block transition-all duration-200 ${
-                      isSelected
-                        ? "bg-blue-600/20 border-l-4 border-blue-500"
-                        : "hover:bg-gray-700/50 border-l-4 border-transparent"
-                    }`}
-                  >
-                    <LibraryItem
+      <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-5 lg:px-6 py-6">
+        <div className="flex flex-col lg:flex-row w-full max-w-7xl gap-6">
+          {/* Header Section */}
+          <div className="lg:hidden mb-4">
+            <h1 className="text-3xl sm:text-4xl font-black bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              My Library
+            </h1>
+            <p className="text-zinc-500 mt-2 text-sm">
+              {sortedItems.length} {sortedItems.length === 1 ? "game" : "games"}{" "}
+              in your collection
+            </p>
+          </div>
+
+          {/* Left Sidebar - Game List */}
+          <div className="flex flex-1 w-full lg:w-96 flex-col bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl overflow-hidden shadow-2xl">
+            {/* Desktop Header */}
+            <div className="hidden lg:block p-6 border-b border-zinc-800 shrink-0">
+              <h1 className="text-2xl font-black bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                My Library
+              </h1>
+              <p className="text-zinc-500 mt-1 text-sm">
+                {sortedItems.length}{" "}
+                {sortedItems.length === 1 ? "game" : "games"}
+              </p>
+            </div>
+
+            <div className="p-4 border-b border-zinc-800 shrink-0">
+              <LibrarySearchBar />
+            </div>
+            <div className="flex flex-col overflow-y-auto flex-1 max-h-100 lg:max-h-none">
+              {sortedItems.length > 0 ? (
+                sortedItems.map((item) => {
+                  const isSelected = selectedItem?.id === item.id;
+                  const linkParams = new URLSearchParams();
+                  linkParams.set("id", item.id);
+                  if (searchQuery) {
+                    linkParams.set("query", searchQuery);
+                  }
+                  if (sortBy && sortBy !== "purchasedAt-desc") {
+                    linkParams.set("sort", sortBy);
+                  }
+                  if (dateFilter) {
+                    linkParams.set("dateFilter", dateFilter);
+                  }
+                  if (priceFilter) {
+                    linkParams.set("priceFilter", priceFilter);
+                  }
+                  return (
+                    <Link
                       key={item.id}
-                      itemDetails={item}
-                      isSelected={isSelected}
-                    />
-                  </Link>
-                );
-              })
+                      href={PATHS.LIBRARY + `?${linkParams.toString()}`}
+                      className={`block transition-all duration-200 mx-2 mb-2 rounded-xl ${
+                        isSelected
+                          ? "bg-blue-600/20 border-l-4 border-blue-500"
+                          : "hover:bg-zinc-800/50 border-l-4 border-transparent"
+                      }`}
+                    >
+                      <LibraryItem
+                        key={item.id}
+                        itemDetails={item}
+                        isSelected={isSelected}
+                      />
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className="px-6 py-12 text-center">
+                  <div className="text-5xl mb-4">🎮</div>
+                  <p className="text-zinc-400 text-lg">No games found</p>
+                  <p className="text-zinc-600 text-sm mt-2">
+                    Try adjusting your search or filters
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Panel - Game Details */}
+          <div className="flex flex-2 animate-fade-in">
+            {selectedItem ? (
+              <ItemDetails key={selectedItem.id} itemDetails={selectedItem} />
             ) : (
-              <div className="px-3 sm:px-6 py-8 text-center">
-                <p className="text-gray-400">No games found</p>
+              <div className="flex items-center justify-center h-full min-h-100 lg:min-h-0 bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">🎮</div>
+                  <p className="text-zinc-400 text-lg font-medium">
+                    Select a game to view details
+                  </p>
+                  <p className="text-zinc-600 text-sm mt-2">
+                    Choose from your library on the left
+                  </p>
+                </div>
               </div>
             )}
           </div>
         </div>
-
-        <div className="animate-fade-in flex flex-1 bg-linear-to-br from-gray-900/50 to-gray-800/50">
-          {selectedItem ? (
-            <ItemDetails key={selectedItem.id} itemDetails={selectedItem} />
-          ) : (
-            <div className="flex items-center justify-center w-full">
-              <p className="text-gray-400 text-lg">
-                Select a game to view details
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+      </main>
     </>
   );
 }

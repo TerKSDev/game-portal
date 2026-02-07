@@ -29,9 +29,9 @@ interface CartItemProps {
 
 export default function CartItem({ item }: { item: CartItemProps }) {
   return (
-    <div className="flex flex-col sm:flex-row justify-between bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-3 sm:p-4 rounded-xl shadow-lg hover:border-gray-600/50 transition-all gap-3 sm:gap-0">
+    <div className="flex flex-col sm:flex-row justify-between bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 p-4 sm:p-5 rounded-2xl shadow-2xl hover:border-zinc-700/80 transition-all gap-4">
       <div className="flex flex-1 gap-4">
-        <div className="relative w-50 aspect-video rounded-lg overflow-hidden shadow-md border border-gray-700/50 shrink-0">
+        <div className="relative w-50 aspect-video rounded-xl overflow-hidden shadow-md border border-zinc-800/80 shrink-0">
           <Image
             src={item.image}
             fill
@@ -43,11 +43,11 @@ export default function CartItem({ item }: { item: CartItemProps }) {
           <div>
             <Link
               href={`${PATHS.DETAILS}/${item.gameId}`}
-              className="text-base sm:text-lg font-semibold hover:text-blue-400 transition-colors line-clamp-2"
+              className="text-base sm:text-lg font-semibold text-zinc-200 hover:text-blue-400 transition-colors line-clamp-2"
             >
               {item.name}
             </Link>
-            <p className="text-xs sm:text-sm text-gray-400 mt-1">
+            <p className="text-xs sm:text-sm text-zinc-500 mt-1">
               Added: {formatDate(item.addedAt)}
             </p>
           </div>

@@ -40,14 +40,14 @@ export default function SummaryCard({
   const orbsReward = !useOrbs ? Math.floor(validTotalAmount * 0.05 * 100) : 0;
 
   return (
-    <div className="flex flex-col flex-1 bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-4 sm:p-6 rounded-xl shadow-2xl gap-4 sm:gap-6 h-fit lg:sticky lg:top-24">
-      <h2 className="font-bold text-lg sm:text-xl bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+    <div className="flex flex-col flex-1 bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 p-6 rounded-2xl shadow-2xl gap-6 h-fit lg:sticky lg:top-24">
+      <h2 className="font-bold text-xl bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
         Order Summary
       </h2>
 
       <div className="flex flex-col gap-4">
         {/* Subtotal */}
-        <div className="flex flex-row justify-between items-center text-gray-300 mb-2">
+        <div className="flex flex-row justify-between items-center text-zinc-300 mb-2">
           <span className="text-sm">Subtotal</span>
           <span className="font-semibold">
             RM {validTotalAmount.toFixed(2)}
@@ -55,11 +55,11 @@ export default function SummaryCard({
         </div>
 
         {/* Orbs Balance */}
-        <div className="bg-linear-to-r from-yellow-600/10 to-orange-600/10 border border-yellow-600/30 rounded-lg p-3 mb-2">
+        <div className="bg-linear-to-r from-yellow-600/10 to-orange-600/10 border border-yellow-600/30 rounded-xl p-3 mb-2">
           <div className="flex flex-row justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
-              <span className="text-sm text-gray-300">Your Orbs</span>
+              <span className="text-sm text-zinc-300">Your Orbs</span>
             </div>
             <span className="font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
               {validUserOrbs.toLocaleString()}
@@ -85,7 +85,7 @@ export default function SummaryCard({
               ></div>
               <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></div>
             </div>
-            <span className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors">
+            <span className="text-sm text-zinc-300 group-hover:text-zinc-200 transition-colors">
               Use Orbs to pay
             </span>
           </label>
@@ -97,7 +97,7 @@ export default function SummaryCard({
           )}
 
           {useOrbs && canUseOrbs && (
-            <div className="ml-14 text-xs text-gray-400 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="ml-14 text-xs text-zinc-400 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
               <p>
                 Using {orbsToUse.toLocaleString()} Orbs ( -RM{" "}
                 {orbsDiscount.toFixed(2)} )
@@ -109,11 +109,11 @@ export default function SummaryCard({
 
         {/* Orbs Reward if not using Orbs */}
         {!useOrbs && orbsReward > 0 && (
-          <div className="bg-linear-to-r from-green-600/10 to-emerald-600/10 border border-green-600/30 rounded-lg p-3 mt-2">
+          <div className="bg-linear-to-r from-green-600/10 to-emerald-600/10 border border-green-600/30 rounded-xl p-3 mt-2">
             <div className="flex flex-row justify-between items-center">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-linear-to-r from-green-400 to-emerald-400 shadow-lg shadow-green-500/50"></div>
-                <span className="text-sm text-gray-300">Orbs Reward (5%)</span>
+                <span className="text-sm text-zinc-300">Orbs Reward (5%)</span>
               </div>
               <span className="font-bold bg-linear-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                 +{orbsReward.toLocaleString()} Orbs
@@ -133,9 +133,9 @@ export default function SummaryCard({
         )}
 
         {/* Total */}
-        <div className="border-t border-gray-700 pt-4 mt-4">
+        <div className="border-t border-zinc-700 pt-4 mt-4">
           <div className="flex flex-row justify-between items-center">
-            <span className="text-base sm:text-lg font-bold text-gray-200">
+            <span className="text-base sm:text-lg font-bold text-zinc-200">
               Total
             </span>
             <span className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">

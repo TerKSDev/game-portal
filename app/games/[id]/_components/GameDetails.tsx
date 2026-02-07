@@ -36,11 +36,11 @@ export default function GameDetails({
   };
 
   return (
-    <div className="flex flex-row max-lg:flex-col flex-1 justify-center max-w-7xl mx-auto gap-6 pb-12">
+    <div className="flex flex-row max-lg:flex-col flex-1 max-w-7xl gap-6 w-full">
       <div className="flex flex-col flex-3 gap-6 w-full">
-        <div className="flex flex-row flex-1 max-lg:flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-6 rounded-xl shadow-2xl">
+        <div className="flex flex-row flex-1 max-lg:flex-col w-full bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 p-6 rounded-2xl shadow-2xl">
           <div className="flex flex-1 flex-row gap-6 max-lg:flex-col">
-            <div className="flex aspect-video relative w-80 max-lg:w-full bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+            <div className="flex aspect-video relative w-80 max-lg:w-full bg-zinc-800 rounded-xl overflow-hidden shadow-lg">
               <Image
                 src={game.background_image}
                 alt={game.name}
@@ -51,7 +51,7 @@ export default function GameDetails({
             <div className="flex flex-col justify-between w-full gap-4">
               <div className="flex flex-col gap-3">
                 <div className="flex flex-row justify-between items-start w-full gap-4">
-                  <h1 className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <h1 className="text-3xl sm:text-3xl font-black text-zinc-200">
                     {game.name}
                   </h1>
                   <div className="flex flex-row items-center bg-linear-to-br from-yellow-500 to-orange-500 text-white font-bold px-3 py-1.5 rounded-lg shadow-md shrink-0">
@@ -60,7 +60,7 @@ export default function GameDetails({
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-y-1.5 text-sm text-gray-400">
+                <div className="flex flex-col gap-y-1.5 text-sm text-zinc-400">
                   <p>Released At: {game.released}</p>
                   <p>Updated At: {game.updated.split("T")[0]}</p>
                 </div>
@@ -69,7 +69,7 @@ export default function GameDetails({
                 {game.genres.map((genre) => (
                   <span
                     key={genre.id}
-                    className="bg-linear-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 text-blue-300 text-xs px-3 py-1.5 rounded-full font-medium"
+                    className="bg-zinc-800 border border-zinc-700/80 text-zinc-300 text-xs px-3 py-1.5 rounded-full font-medium"
                   >
                     {genre.name}
                   </span>
@@ -79,27 +79,27 @@ export default function GameDetails({
           </div>
         </div>
 
-        <div className="flex flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-6 rounded-xl shadow-2xl">
-          <h2 className="font-bold text-xl mb-4 text-blue-400">
+        <div className="flex flex-col w-full bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 p-6 rounded-2xl shadow-2xl">
+          <h2 className="font-bold text-xl mb-4 text-zinc-200">
             About This Game
           </h2>
           <article
-            className="w-full p-0.5 py-4 prose prose-slate max-w-none text-gray-300 text-sm text-justify"
+            className="w-full p-0.5 py-4 prose prose-zinc max-w-none text-zinc-300 text-sm text-justify"
             dangerouslySetInnerHTML={{ __html: cleanedDescription }}
           ></article>
         </div>
 
-        <div className="flex flex-row max-lg:flex-col gap-4 w-full">
+        <div className="flex flex-row max-lg:flex-col gap-6 w-full">
           <div className="flex flex-1">
-            <div className="flex flex-col flex-1 bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 rounded-xl shadow-2xl gap-y-4">
-              <h2 className="font-bold text-xl text-blue-400">Publishers</h2>
+            <div className="flex flex-col flex-1 bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 p-5 rounded-2xl shadow-2xl gap-y-4">
+              <h2 className="font-bold text-xl text-zinc-200">Publishers</h2>
               <div key={game.id} className="flex flex-wrap gap-4 mt-1">
                 {game.publishers.map((publisher) => (
                   <div
                     key={publisher.id}
                     className="flex flex-1 flex-row gap-x-3 h-fit items-center min-w-50"
                   >
-                    <div className="flex items-center border border-gray-700 rounded-lg relative w-20 aspect-video overflow-hidden shadow-md bg-gray-800">
+                    <div className="flex items-center border border-zinc-800/80 rounded-lg relative w-20 aspect-video overflow-hidden shadow-md bg-zinc-800">
                       <Image
                         src={publisher.image_background}
                         alt={publisher.name}
@@ -108,7 +108,7 @@ export default function GameDetails({
                       />
                     </div>
                     <div>
-                      <p className="text-base text-gray-300 font-medium">
+                      <p className="text-base text-zinc-300 font-medium">
                         {publisher.name}
                       </p>
                     </div>
@@ -118,17 +118,17 @@ export default function GameDetails({
             </div>
           </div>
           <div className="flex flex-1">
-            <div className="flex flex-col w-full bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 rounded-xl shadow-2xl gap-y-4">
-              <h2 className="font-bold text-xl text-blue-400">Related Links</h2>
+            <div className="flex flex-col w-full bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 p-5 rounded-2xl shadow-2xl gap-y-4">
+              <h2 className="font-bold text-xl text-zinc-200">Related Links</h2>
               <div className="flex flex-col gap-y-3 text-sm">
                 <div className="flex flex-row gap-x-2 text-sm">
-                  <p className="text-gray-400">Official Website:</p>
+                  <p className="text-zinc-400">Official Website:</p>
                   <Link
                     key={game.id}
                     href={game.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-zinc-300 hover:text-zinc-200 transition-colors underline"
                   >
                     {game.publishers
                       .map((publisher) => publisher.name)
@@ -136,23 +136,23 @@ export default function GameDetails({
                   </Link>
                 </div>
                 <div className="flex flex-row gap-x-2 text-sm">
-                  <p className="text-gray-400">Metacritic Page:</p>
+                  <p className="text-zinc-400">Metacritic Page:</p>
                   <Link
                     href={game.metacritic_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-zinc-300 hover:text-zinc-200 transition-colors underline"
                   >
                     Metacritic
                   </Link>
                 </div>
                 <div className="flex flex-row gap-x-2 text-sm">
-                  <p className="text-gray-400">Source From:</p>
+                  <p className="text-zinc-400">Source From:</p>
                   <Link
                     href={"https://rawg.io/games/"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-zinc-300 hover:text-zinc-200 transition-colors underline"
                   >
                     RAWG.io
                   </Link>
@@ -162,15 +162,15 @@ export default function GameDetails({
           </div>
         </div>
       </div>
-      <div className="flex flex-[1.5] bg-gray-900/80 backdrop-blur-md border border-gray-700/50 py-6 px-5 rounded-xl shadow-2xl h-fit flex-col gap-6 max-lg:hidden">
+      <div className="flex flex-[1.5] bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 py-6 px-5 rounded-2xl shadow-2xl h-fit flex-col gap-6 max-lg:hidden">
         {price ? (
           <>
-            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
-              <h2 className="font-semibold text-lg text-gray-300">Price</h2>
-              <p className="text-xl font-bold text-blue-400">{price.final}</p>
+            <div className="bg-zinc-800/50 rounded-xl border border-zinc-800/80 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-zinc-300">Price</h2>
+              <p className="text-xl font-bold text-zinc-200">{price.final}</p>
             </div>
-            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-row justify-between w-full px-4 py-3 items-center">
-              <h2 className="font-semibold text-lg text-gray-300">Exchange</h2>
+            <div className="bg-zinc-800/50 rounded-xl border border-zinc-800/80 flex flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-zinc-300">Exchange</h2>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
                 <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
@@ -182,8 +182,8 @@ export default function GameDetails({
             </div>
           </>
         ) : (
-          <div className="flex flex-row gap-2 items-center justify-center px-4 py-3 bg-gray-800/50 rounded-lg border border-gray-700">
-            <p className="text-gray-400">Not Available Now!</p>
+          <div className="flex flex-row gap-2 items-center justify-center px-4 py-3 bg-zinc-800/50 rounded-xl border border-zinc-800/80">
+            <p className="text-zinc-400">Not Available Now!</p>
           </div>
         )}
         {!libraryInitialState ? (
@@ -205,15 +205,15 @@ export default function GameDetails({
         )}
       </div>
 
-      <div className="flex-[1.5] bg-gray-900/80 backdrop-blur-md border border-gray-700/50 p-5 py-6 rounded-xl shadow-2xl h-fit flex-col gap-8 max-lg:flex hidden">
+      <div className="flex-[1.5] bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 p-5 py-6 rounded-2xl shadow-2xl h-fit flex-col gap-8 max-lg:flex hidden">
         {price ? (
           <>
-            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
-              <h2 className="font-semibold text-lg text-gray-300">Price</h2>
-              <p className="text-xl font-bold text-blue-400">{price.final}</p>
+            <div className="bg-zinc-800/50 rounded-xl border border-zinc-800/80 flex flex-1 flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-zinc-300">Price</h2>
+              <p className="text-xl font-bold text-zinc-200">{price.final}</p>
             </div>
-            <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex flex-row justify-between w-full px-4 py-3 items-center">
-              <h2 className="font-semibold text-lg text-gray-300">Exchange</h2>
+            <div className="bg-zinc-800/50 rounded-xl border border-zinc-800/80 flex flex-row justify-between w-full px-4 py-3 items-center">
+              <h2 className="font-semibold text-lg text-zinc-300">Exchange</h2>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-linear-to-r from-yellow-400 to-orange-400 shadow-lg shadow-yellow-500/50"></div>
                 <p className="text-xl font-bold bg-linear-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
@@ -225,9 +225,9 @@ export default function GameDetails({
             </div>
           </>
         ) : (
-          <div className="flex flex-row gap-2 items-center justify-between px-4 py-3 bg-gray-800/50 rounded-lg border border-gray-700">
-            <h2 className="font-semibold text-lg text-gray-300">Price</h2>
-            <p className="text-gray-400">Not Available Now!</p>
+          <div className="flex flex-row gap-2 items-center justify-between px-4 py-3 bg-zinc-800/50 rounded-xl border border-zinc-800/80">
+            <h2 className="font-semibold text-lg text-zinc-300">Price</h2>
+            <p className="text-zinc-400">Not Available Now!</p>
           </div>
         )}
 

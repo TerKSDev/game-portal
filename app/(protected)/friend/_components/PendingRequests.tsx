@@ -83,10 +83,12 @@ export default function PendingRequests({
   if (localRequests.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-60 gap-6">
-        <FaUserPlus size={42} className="text-gray-600" />
+        <FaUserPlus size={48} className="text-zinc-500" />
         <div className="text-center">
-          <p className="text-gray-400 text-xl">No pending requests</p>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-zinc-300 text-xl font-semibold">
+            No pending requests
+          </p>
+          <p className="text-zinc-500 text-sm mt-1">
             Friend requests will appear here
           </p>
         </div>
@@ -99,7 +101,7 @@ export default function PendingRequests({
       {localRequests.map((request) => (
         <div
           key={request.id}
-          className="group bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
+          className="group bg-zinc-900/50 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300"
         >
           <div className="flex items-center gap-4">
             {request.image ? (
@@ -108,10 +110,10 @@ export default function PendingRequests({
                 alt={request.name || "User"}
                 width={48}
                 height={48}
-                className="rounded-full ring-2 ring-gray-700 group-hover:ring-green-500/50 transition-all duration-300"
+                className="rounded-full ring-2 ring-zinc-700 group-hover:ring-green-500/50 transition-all duration-300"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-600 to-blue-600 flex items-center justify-center ring-2 ring-gray-700 group-hover:ring-green-500/50 transition-all duration-300">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-600 to-blue-600 flex items-center justify-center ring-2 ring-zinc-700 group-hover:ring-green-500/50 transition-all duration-300">
                 <span className="text-lg font-bold text-white">
                   {request.name?.[0]?.toUpperCase() || "?"}
                 </span>
@@ -119,10 +121,10 @@ export default function PendingRequests({
             )}
 
             <div>
-              <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+              <h4 className="font-semibold text-zinc-200 group-hover:text-green-400 transition-colors">
                 {request.name || "Unnamed"}
               </h4>
-              <p className="text-sm text-gray-500">{request.email}</p>
+              <p className="text-sm text-zinc-500">{request.email}</p>
             </div>
           </div>
 
@@ -132,7 +134,7 @@ export default function PendingRequests({
                 request.requestId && handleAccept(request.requestId)
               }
               disabled={loading === request.requestId}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-green-500/30"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-green-500/30 font-bold"
             >
               <FaCheck size={14} />
               {loading === request.requestId ? "..." : "Accept"}
@@ -142,7 +144,7 @@ export default function PendingRequests({
                 request.requestId && handleDecline(request.requestId)
               }
               disabled={loading === request.requestId}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/20 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/30 rounded-xl hover:bg-red-500/20 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-bold shadow-lg"
             >
               <FaTimes size={14} />
               Decline
@@ -152,7 +154,7 @@ export default function PendingRequests({
                 request.requestId && handleBlock(request.id, request.requestId)
               }
               disabled={loading === request.requestId}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-gray-700/50 text-gray-400 border border-gray-600/50 rounded-lg hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-zinc-700/50 text-zinc-400 border border-zinc-600/50 rounded-xl hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-bold shadow-lg"
             >
               <FaBan size={14} />
               Block

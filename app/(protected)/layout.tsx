@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 
 import { PATHS } from "@/app/_config/routes";
 import { auth } from "@/lib/actions/auth";
-import Header from "@/app/components/Header";
 
 export default async function ProtectedLayout({
   children,
@@ -15,9 +14,5 @@ export default async function ProtectedLayout({
     redirect(PATHS.LOGIN);
   }
 
-  return (
-    <section className="w-screen h-full min-h-screen overflow-hidden">
-      {children}
-    </section>
-  );
+  return <>{children}</>;
 }
