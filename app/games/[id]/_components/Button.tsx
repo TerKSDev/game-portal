@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/app/_config/routes";
 import { AddToCart, AddToWishlist, AddProps } from "./buttonOnClick";
+import { useNotification } from "@/app/components/Notification";
 
 import { TiStarOutline, TiStarFullOutline } from "react-icons/ti";
 import { BiSolidPurchaseTag } from "react-icons/bi";
@@ -15,34 +16,54 @@ type ButtonProps = AddProps & {
 export function AddToCartButton({ game, initialState = false }: ButtonProps) {
   const [isCartAdded, setIsCartAdded] = useState(initialState);
   const router = useRouter();
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     setIsCartAdded(initialState);
   }, [initialState]);
 
-  const handleWishlistButtonClick = async () => {
+  const handleCartButtonClick = async () => {
+    // Optimistic UI: Update state immediately
+    const previousState = isCartAdded;
+    const newState = !isCartAdded;
+
+    setIsCartAdded(newState);
+
+    // Show notification immediately
+    if (newState) {
+      showSuccess("Game added to cart successfully!", "Cart Updated");
+    } else {
+      showSuccess("Game removed from cart successfully!", "Cart Updated");
+    }
+
+    // Trigger sidebar refresh immediately
+    window.dispatchEvent(new Event("refreshUserStats"));
+
     try {
+      // Execute server action in background
       const result = await AddToCart({ game });
 
-      if (result.success) {
-        alert("Add to cart successfully!");
-      } else {
-        alert("Removed from cart successfully!");
-      }
-      router.refresh();
-      // Trigger sidebar refresh after a small delay to ensure DB update completes
-      setTimeout(() => {
+      // Verify server state matches our optimistic update
+      if (result.success !== newState) {
+        // Rollback if server state doesn't match
+        setIsCartAdded(previousState);
         window.dispatchEvent(new Event("refreshUserStats"));
-      }, 100);
+      }
+
+      router.refresh();
     } catch (error) {
       console.log("Error adding to cart:", error);
+      // Rollback on error
+      setIsCartAdded(previousState);
+      showError("Failed to update cart. Please try again.", "Error");
+      window.dispatchEvent(new Event("refreshUserStats"));
     }
   };
 
   return (
     <button
       type="button"
-      onClick={() => handleWishlistButtonClick()}
+      onClick={() => handleCartButtonClick()}
       className={`flex flex-row gap-x-3 w-full py-3 rounded-xl justify-center items-center text-sm font-bold transition-all duration-300 shadow-lg ${
         isCartAdded
           ? "bg-zinc-700 hover:bg-zinc-600 border border-zinc-600"
@@ -61,27 +82,50 @@ export function AddToWishlistButton({
 }: ButtonProps) {
   const [isWishlistAdded, setIsWishlistAdded] = useState(initialState);
   const router = useRouter();
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     setIsWishlistAdded(initialState);
   }, [initialState]);
 
   const handleWishlistButtonClick = async () => {
+    // Optimistic UI: Update state immediately
+    const previousState = isWishlistAdded;
+    const newState = !isWishlistAdded;
+
+    setIsWishlistAdded(newState);
+
+    // Show notification immediately
+    if (newState) {
+      showSuccess("Game added to wishlist successfully!", "Wishlist Updated");
+    } else {
+      showSuccess(
+        "Game removed from wishlist successfully!",
+        "Wishlist Updated",
+      );
+    }
+
+    // Trigger sidebar refresh immediately
+    window.dispatchEvent(new Event("refreshUserStats"));
+
     try {
+      // Execute server action in background
       const result = await AddToWishlist({ game });
 
-      if (result && result.success) {
-        alert("Add to wishlist successfully!");
-      } else {
-        alert("Removed from wishlist successfully!");
-      }
-      router.refresh();
-      // Trigger sidebar refresh after a small delay to ensure DB update completes
-      setTimeout(() => {
+      // Verify server state matches our optimistic update
+      if (result && result.success !== newState) {
+        // Rollback if server state doesn't match
+        setIsWishlistAdded(previousState);
         window.dispatchEvent(new Event("refreshUserStats"));
-      }, 100);
+      }
+
+      router.refresh();
     } catch (error) {
       console.log("Error adding to wishlist:", error);
+      // Rollback on error
+      setIsWishlistAdded(previousState);
+      showError("Failed to update wishlist. Please try again.", "Error");
+      window.dispatchEvent(new Event("refreshUserStats"));
     }
   };
 

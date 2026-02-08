@@ -19,6 +19,7 @@ export function RemoveButton({ itemId }: { itemId: string }) {
     const res = await RemoveFromWishlist(itemId);
 
     if (res.success) {
+      window.dispatchEvent(new Event("refreshUserStats"));
       alert("Item removed from wishlist.");
     }
   };
@@ -38,6 +39,7 @@ export function AddToCartButton({ itemDetails }: AddToCartProps) {
     const res = await AddToCart({ itemDetails });
 
     if (res.success) {
+      window.dispatchEvent(new Event("refreshUserStats"));
       alert("Item added to cart.");
     }
   };

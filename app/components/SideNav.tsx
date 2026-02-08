@@ -4,7 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { PATHS } from "@/app/_config/routes";
-import { IoGameController, IoClose } from "react-icons/io5";
+import {
+  IoGameController,
+  IoClose,
+  IoStorefront,
+  IoLibrary,
+  IoHeart,
+  IoCart,
+  IoCalendar,
+  IoPeople,
+} from "react-icons/io5";
+
 import { useState, useEffect, useCallback } from "react";
 import SearchBar from "./SearchBar";
 import { Suspense } from "react";
@@ -65,27 +75,27 @@ export default function SideNav({ isMobile = false, onClose }: SideNavProps) {
     {
       label: "Store",
       path: PATHS.STORE,
-      icon: "🕹️",
+      icon: <IoStorefront size={18} />,
       auth: false,
     },
     {
       label: "Library",
       path: PATHS.LIBRARY,
-      icon: "🎮",
+      icon: <IoLibrary size={18} />,
       auth: true,
       badge: userLibraryCount > 0 ? userLibraryCount : undefined,
     },
     {
       label: "Wishlist",
       path: PATHS.WISHLIST,
-      icon: "❤️",
+      icon: <IoHeart size={18} />,
       auth: true,
       badge: userWishlistCount > 0 ? userWishlistCount : undefined,
     },
     {
       label: "Cart",
       path: PATHS.CART,
-      icon: "🛒",
+      icon: <IoCart size={18} />,
       auth: true,
       badge: userCartCount > 0 ? userCartCount : undefined,
     },
@@ -95,13 +105,13 @@ export default function SideNav({ isMobile = false, onClose }: SideNavProps) {
     {
       label: "Events",
       path: PATHS.EVENT,
-      icon: "🎉",
+      icon: <IoCalendar size={18} />,
       auth: false,
     },
     {
       label: "Friends",
       path: PATHS.FRIEND,
-      icon: "👥",
+      icon: <IoPeople size={18} />,
       auth: true,
     },
   ];
@@ -160,7 +170,7 @@ export default function SideNav({ isMobile = false, onClose }: SideNavProps) {
               key={item.path}
               href={item.path}
               onClick={isMobile ? onClose : undefined}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+              className={`flex items-center gap-5 px-3 py-2.5 rounded-xl transition-all ${
                 isActive(item.path)
                   ? "bg-zinc-800 text-white"
                   : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"

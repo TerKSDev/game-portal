@@ -101,9 +101,15 @@ export async function GetGames(
     if (filters.dates) {
       url += `&dates=${encodeURIComponent(filters.dates)}`;
     }
+    // If user specifies stores filter, use it; otherwise default to Steam (store ID: 1)
     if (filters.stores) {
       url += `&stores=${encodeURIComponent(filters.stores)}`;
+    } else {
+      url += `&stores=1`; // Default to Steam only
     }
+  } else {
+    // No filters provided, default to Steam only
+    url += `&stores=1`;
   }
 
   console.log("[GetGames] URL:", url);

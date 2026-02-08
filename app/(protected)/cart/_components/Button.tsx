@@ -3,15 +3,27 @@
 import { RemoveFromCart, HandleCheckout } from "./buttonOnClick";
 import { useRouter } from "next/navigation";
 import { PATHS } from "@/app/_config/routes";
+import { useNotification } from "@/app/components/Notification";
 
 export function RemoveButton({ id }: { id: string }) {
-  const handleRemove = async () => {
-    const res = await RemoveFromCart(id);
+  const { showSuccess, showConfirmation } = useNotification();
 
-    if (res.success) {
-      // Optionally, you can add some UI feedback here
-      alert("Item removed from cart.");
-    }
+  const handleRemove = async () => {
+    showConfirmation({
+      title: "Remove Item",
+      message: "Are you sure you want to remove this item from your cart?",
+      confirmText: "Remove",
+      cancelText: "Cancel",
+      onConfirm: async () => {
+        const res = await RemoveFromCart(id);
+
+        if (res.success) {
+          // Trigger SideNav stats refresh
+          window.dispatchEvent(new Event("refreshUserStats"));
+          showSuccess("Item removed from cart successfully!");
+        }
+      },
+    });
   };
 
   return (
@@ -34,6 +46,7 @@ export function CheckoutButton({
   orbsUsage?: number;
 }) {
   const router = useRouter();
+  const { showError, showSuccess } = useNotification();
 
   const handleCheckout = async () => {
     try {
@@ -51,24 +64,31 @@ export function CheckoutButton({
         finalPrice < 0
       ) {
         console.error("Invalid finalPrice:", finalPrice);
-        alert(`Invalid price: ${finalPrice}. Please refresh and try again.`);
+        showError(
+          `Invalid price: ${finalPrice}. Please refresh and try again.`,
+          "Checkout Error",
+        );
         return;
       }
 
       // Use orbs for full payment
       if (finalPrice === 0 && isUseOrbs) {
         if (orbsUsage <= 0) {
-          alert("Invalid Orbs usage amount.");
+          showError("Invalid Orbs usage amount.", "Checkout Error");
           return;
         }
 
         const result = await HandleCheckout(orbsUsage);
 
         if (result.success) {
+          window.dispatchEvent(new Event("refreshUserStats"));
           router.push(`${PATHS.PAYMENT_SUCCESS}?paid_with_orbs=true`);
           return;
         } else {
-          alert(result.message || "Failed to process payment with Orbs.");
+          showError(
+            result.message || "Failed to process payment with Orbs.",
+            "Payment Failed",
+          );
           return;
         }
       }
@@ -92,9 +112,9 @@ export function CheckoutButton({
       const data = await res.json();
 
       if (!res.ok) {
-        console.error("Checkout error:", data);
-        alert(
-          `Failed to create checkout session: ${data.details || data.error}`,
+        showError(
+          data.details || data.error || "Failed to create checkout session",
+          "Checkout Error",
         );
         return;
       }
@@ -102,10 +122,15 @@ export function CheckoutButton({
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert("Failed to create checkout session.");
+        showError("Failed to create checkout session.", "Checkout Error");
       }
     } catch (error) {
       console.error("Checkout request error:", error);
+      showError(
+        "Something went wrong during checkout.",
+        "Errorest error:",
+        error,
+      );
       alert("Something went wrong.");
     }
   };

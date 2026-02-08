@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm";
 import { Suspense } from "react";
 
-import { ROUTES } from "@/app/_config/routes";
+import { ROUTES, PATHS } from "@/app/_config/routes";
 
 function GetTitle(path: string) {
   const route = ROUTES.find((r) => r.path === path);
@@ -9,7 +9,7 @@ function GetTitle(path: string) {
 }
 
 export const metadata = {
-  title: GetTitle("/login"),
+  title: GetTitle(PATHS.LOGIN),
 };
 
 export default function Login() {

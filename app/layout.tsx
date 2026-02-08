@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import SessionComponent from "@/app/components/SessionProvider";
+import { NotificationProvider } from "@/app/components/Notification";
 
 import "./globals.css";
 import SideNav from "@/app/components/SideNav";
@@ -99,12 +100,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
         <SessionComponent>
-          <SideNav />
-          <MobileNav />
+          <NotificationProvider>
+            <SideNav />
+            <MobileNav />
 
-          <main className="flex-1 md:ml-72 w-full min-h-screen overflow-y-auto pt-16 md:pt-0">
-            {children}
-          </main>
+            <main className="flex-1 md:ml-72 w-full min-h-screen overflow-y-auto pt-16 md:pt-0">
+              {children}
+            </main>
+          </NotificationProvider>
         </SessionComponent>
       </body>
     </html>

@@ -89,7 +89,7 @@ export default async function Cart() {
         ) : (
           <div className="flex items-center justify-center min-h-100 backdrop-blur-md border border-zinc-800/80 rounded-2xl p-12 mt-12">
             <div className="flex flex-col text-center justify-center items-center gap-6">
-              <div className="text-6xl">🛒</div>
+              <FaShoppingCart className="text-gray-300" size={80} />
               <div className="space-y-2">
                 <p className="text-zinc-400 text-xl font-medium">
                   Your cart is empty
