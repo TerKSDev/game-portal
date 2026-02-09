@@ -5,13 +5,15 @@ import { useTransition } from "react";
 import { IoReload } from "react-icons/io5";
 
 interface ViewMoreButtonProps {
-  viewMode: string;
+  viewMode?: string;
+  query?: string;
   loadMore: number;
   viewType: string;
 }
 
 export default function ViewMoreButton({
   viewMode,
+  query,
   loadMore,
   viewType,
 }: ViewMoreButtonProps) {
@@ -19,7 +21,14 @@ export default function ViewMoreButton({
   const [isPending, startTransition] = useTransition();
 
   const handleClick = () => {
-    const newUrl = `/?view=${viewMode}&loadMore=${loadMore + 1}&viewType=${viewType}`;
+    let newUrl = "";
+
+    // If searching, build search URL
+    if (query) {
+      newUrl = `/?query=${encodeURIComponent(query)}&loadMore=${loadMore + 1}&viewType=${viewType}`;
+      newUrl = `/?view=${viewMode}&loadMore=${loadMore + 1}&viewType=${viewType}`;
+    }
+
     startTransition(() => {
       router.push(newUrl, { scroll: false });
       router.refresh();

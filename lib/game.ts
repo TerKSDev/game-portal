@@ -67,7 +67,6 @@ export async function GetGames(
   page: number = 1,
   pageSize: number = 24,
   query?: string,
-  searchType?: "name" | "publisher",
   filters?: GameFilters,
 ) {
   const apiKey = process.env.RAWG_API_KEY;
@@ -76,15 +75,8 @@ export async function GetGames(
   let url = `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${pageSize}`;
 
   if (query) {
-    if (searchType === "publisher") {
-      // For publisher search, convert to slug format (lowercase with hyphens)
-      // e.g., "Nintendo" -> "nintendo", "Electronic Arts" -> "electronic-arts"
-      const publisherSlug = query.toLowerCase().replace(/\s+/g, "-");
-      url += `&publishers=${encodeURIComponent(publisherSlug)}`;
-    } else {
-      // Default search by game name
-      url += `&search=${encodeURIComponent(query)}`;
-    }
+    // Search by game name (RAWG API's search parameter searches across game names, tags, and descriptions)
+    url += `&search=${encodeURIComponent(query)}`;
   }
 
   // Apply filters
@@ -101,32 +93,71 @@ export async function GetGames(
     if (filters.dates) {
       url += `&dates=${encodeURIComponent(filters.dates)}`;
     }
-    // If user specifies stores filter, use it; otherwise default to Steam (store ID: 1)
+    // Only apply stores filter if explicitly specified
     if (filters.stores) {
       url += `&stores=${encodeURIComponent(filters.stores)}`;
-    } else {
-      url += `&stores=1`; // Default to Steam only
     }
-  } else {
-    // No filters provided, default to Steam only
-    url += `&stores=1`;
   }
 
   console.log("[GetGames] URL:", url);
-  console.log("[GetGames] Query:", query, "Type:", searchType);
+  console.log("[GetGames] Query:", query);
   console.log("[GetGames] Filters:", filters);
 
-  const res = await fetch(url);
+  // Retry logic for handling temporary API failures
+  const maxRetries = 3;
+  let lastError: Error | null = null;
 
-  if (!res.ok) {
-    console.error("[GetGames] Fetch error:", res.status, res.statusText);
-    throw new Error("Error: Failed to fetch games.");
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+      });
+
+      if (!res.ok) {
+        console.error(
+          `[GetGames] Attempt ${attempt}/${maxRetries} - Fetch error:`,
+          res.status,
+          res.statusText,
+        );
+
+        // If it's a 502/503 error and we have retries left, wait and retry
+        if (
+          (res.status === 502 || res.status === 503) &&
+          attempt < maxRetries
+        ) {
+          const waitTime = attempt * 1000; // Exponential backoff: 1s, 2s, 3s
+          console.log(`[GetGames] Retrying in ${waitTime}ms...`);
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          continue;
+        }
+
+        lastError = new Error(`API returned ${res.status}: ${res.statusText}`);
+        continue;
+      }
+
+      const data: RAWGResponse = await res.json();
+      console.log("[GetGames] Results count:", data.results.length);
+      console.log("[GetGames] Total count:", data.count);
+      return data.results as GameProps[];
+    } catch (error) {
+      console.error(
+        `[GetGames] Attempt ${attempt}/${maxRetries} - Error:`,
+        error,
+      );
+      lastError = error as Error;
+
+      if (attempt < maxRetries) {
+        const waitTime = attempt * 1000;
+        console.log(`[GetGames] Retrying in ${waitTime}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+      }
+    }
   }
 
-  const data: RAWGResponse = await res.json();
-  console.log("[GetGames] Results count:", data.results.length);
-  console.log("[GetGames] Total count:", data.count);
-  return data.results as GameProps[];
+  // If all retries failed, return empty array instead of throwing
+  console.error("[GetGames] All retries failed, returning empty array");
+  console.error("[GetGames] Last error:", lastError);
+  return [] as GameProps[];
 }
 
 export async function GetGamePrice(

@@ -72,33 +72,51 @@ export default async function Game({ params }: GameDetailsProps) {
   let initialLibraryState = false;
 
   if (session?.user?.id) {
-    const wishlistItem = await prisma.wishlistItem.findFirst({
-      where: {
-        userId: session.user.id,
-        gameId: gameData.game.id,
-      },
-    });
+    // Parallel queries with error handling
+    try {
+      const [wishlistItem, cartItem, libraryItem] = await Promise.all([
+        prisma.wishlistItem
+          .findFirst({
+            where: {
+              userId: session.user.id,
+              gameId: gameData.game.id,
+            },
+          })
+          .catch((error) => {
+            console.error("[Game Details] Wishlist query error:", error);
+            return null;
+          }),
+        prisma.cartItem
+          .findFirst({
+            where: {
+              userId: session.user.id,
+              gameId: gameData.game.id,
+            },
+          })
+          .catch((error) => {
+            console.error("[Game Details] Cart query error:", error);
+            return null;
+          }),
+        prisma.libraryItem
+          .findFirst({
+            where: {
+              userId: session.user.id,
+              gameId: gameData.game.id,
+            },
+          })
+          .catch((error) => {
+            console.error("[Game Details] Library query error:", error);
+            return null;
+          }),
+      ]);
 
-    const cartItem = await prisma.cartItem.findFirst({
-      where: {
-        userId: session.user.id,
-        gameId: gameData.game.id,
-      },
-    });
-
-    const libraryItem = await prisma.libraryItem.findFirst({
-      where: {
-        userId: session.user.id,
-        gameId: gameData.game.id,
-      },
-    });
-
-    if (libraryItem) {
-      initialLibraryState = true;
+      initialWishlistState = !!wishlistItem;
+      initialCartState = !!cartItem;
+      initialLibraryState = !!libraryItem;
+    } catch (error) {
+      console.error("[Game Details] Error fetching user states:", error);
+      // Continue with default states (all false) if queries fail
     }
-
-    initialWishlistState = !!wishlistItem;
-    initialCartState = !!cartItem;
   }
 
   return (
