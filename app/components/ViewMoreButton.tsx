@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { IoReload } from "react-icons/io5";
 
@@ -18,16 +18,26 @@ export default function ViewMoreButton({
   viewType,
 }: ViewMoreButtonProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const handleClick = () => {
-    let newUrl = "";
+    const params = new URLSearchParams(searchParams.toString());
 
-    // If searching, build search URL
+    // Update loadMore parameter
+    params.set("loadMore", String(loadMore + 1));
+    params.set("viewType", viewType);
+
+    // Set the appropriate mode parameter
     if (query) {
-      newUrl = `/?query=${encodeURIComponent(query)}&loadMore=${loadMore + 1}&viewType=${viewType}`;
-      newUrl = `/?view=${viewMode}&loadMore=${loadMore + 1}&viewType=${viewType}`;
+      params.set("query", query);
+      params.delete("view");
+    } else if (viewMode) {
+      params.set("view", viewMode);
+      params.delete("query");
     }
+
+    const newUrl = `/?${params.toString()}`;
 
     startTransition(() => {
       router.push(newUrl, { scroll: false });

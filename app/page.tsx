@@ -201,7 +201,7 @@ export default async function Home(props: {
                     href={`${PATHS.DETAILS}/${game.id}`}
                     className="flex gap-4 bg-zinc-900/60 backdrop-blur-sm rounded-xl border border-zinc-800/80 hover:border-zinc-700/80 overflow-hidden group transition-all duration-300 p-4"
                   >
-                    <div className="relative w-32 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+                    <div className="relative w-32 h-20 shrink-0 rounded-lg overflow-hidden">
                       {game.background_image ? (
                         <Image
                           src={game.background_image}
@@ -468,7 +468,7 @@ export default async function Home(props: {
                       href={`${PATHS.DETAILS}/${game.id}`}
                       className="flex gap-4 bg-zinc-900/60 backdrop-blur-sm rounded-xl border border-zinc-800/80 hover:border-zinc-700/80 overflow-hidden group transition-all duration-300 p-4"
                     >
-                      <div className="relative w-32 h-20 flex-shrink-0 rounded-lg overflow-hidden">
+                      <div className="relative w-32 h-20 shrink-0 rounded-lg overflow-hidden">
                         {game.background_image ? (
                           <Image
                             src={game.background_image}

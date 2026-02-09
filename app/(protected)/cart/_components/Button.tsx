@@ -134,7 +134,7 @@ export function CheckoutButton({
   return (
     <button
       onClick={() => handleCheckout()}
-      className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-blue-500/50 w-full"
+      className="bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-blue-500/50 w-full"
     >
       Proceed to Checkout
     </button>

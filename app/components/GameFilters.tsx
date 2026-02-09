@@ -143,7 +143,7 @@ export default function GameFilters() {
       </button>
 
       {isOpen && (
-        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-96 bg-zinc-900/95 backdrop-blur-md border-0 sm:border border-zinc-800/80 sm:rounded-xl shadow-2xl shadow-black/50 z-50 h-screen sm:h-auto sm:max-h-[600px] overflow-y-auto">
+        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-96 bg-zinc-900/95 backdrop-blur-md border-0 sm:border border-zinc-800/80 sm:rounded-xl shadow-2xl shadow-black/50 z-50 h-screen sm:h-auto sm:max-h-150 overflow-y-auto">
           {/* Header */}
           <div className="sticky top-0 bg-zinc-900/95 backdrop-blur-md border-b border-zinc-800/80 p-4 flex items-center justify-between z-10">
             <h3 className="text-lg font-bold text-white">
