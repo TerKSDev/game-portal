@@ -195,7 +195,7 @@ export default function GameFilters() {
               <div className="flex items-center gap-2 p-3 bg-blue-900/20 border border-blue-800/30 rounded-lg">
                 <IoTrendingUpOutline
                   size={16}
-                  className="text-blue-400 flex-shrink-0"
+                  className="text-blue-400 shrink-0"
                 />
                 <p className="text-xs text-zinc-400">
                   Sorting is fixed for this category. Use filters below to

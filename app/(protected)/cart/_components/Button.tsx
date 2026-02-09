@@ -126,11 +126,7 @@ export function CheckoutButton({
       }
     } catch (error) {
       console.error("Checkout request error:", error);
-      showError(
-        "Something went wrong during checkout.",
-        "Errorest error:",
-        error,
-      );
+      showError("Something went wrong during checkout.", "Checkout Error");
       alert("Something went wrong.");
     }
   };
