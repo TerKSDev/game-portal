@@ -63,6 +63,10 @@ export default function GameFilters() {
   const currentDates = searchParams.get("dates") || "";
   const currentStores = searchParams.get("stores") || "";
 
+  // 检测是否在View More模式（trending, top-rated等）
+  const viewMode = searchParams.get("view");
+  const isViewMode = Boolean(viewMode);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -105,7 +109,10 @@ export default function GameFilters() {
     const params = new URLSearchParams(searchParams);
     params.delete("genres");
     params.delete("platforms");
-    params.delete("ordering");
+    // Only clear ordering in search mode, not in view mode
+    if (!isViewMode) {
+      params.delete("ordering");
+    }
     params.delete("dates");
     params.delete("stores");
     replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -121,11 +128,13 @@ export default function GameFilters() {
     <div className="relative" ref={filterRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-lg hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300 text-gray-300 hover:text-white text-sm"
+        className="flex items-center gap-2 px-6 h-full bg-zinc-900 hover:bg-zinc-900/50 border border-zinc-700/50 text-zinc-300 rounded-lg font-bold transition-all"
       >
-        <IoFunnelOutline size={20} />
-        <span className="font-medium hidden sm:inline">Filters & Sort</span>
-        <span className="font-medium sm:hidden">Filter</span>
+        <IoFunnelOutline size={16} />
+        <span className="hidden sm:inline text-sm">
+          {isViewMode ? "Filters" : "Filters & Sort"}
+        </span>
+        <span className="sm:hidden">Filter</span>
         {activeFiltersCount > 0 && (
           <span className="px-2 py-0.5 bg-blue-600 text-white text-xs rounded-full">
             {activeFiltersCount}
@@ -134,10 +143,12 @@ export default function GameFilters() {
       </button>
 
       {isOpen && (
-        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-80 bg-gray-800 border-0 sm:border border-gray-700 sm:rounded-lg shadow-2xl shadow-black/50 z-10 h-screen sm:h-auto sm:max-h-150 overflow-y-auto max-sm:z-100">
+        <div className="fixed sm:absolute top-0 sm:top-full left-0 sm:left-auto right-0 sm:right-0 sm:mt-2 w-full sm:w-96 bg-zinc-900/95 backdrop-blur-md border-0 sm:border border-zinc-800/80 sm:rounded-xl shadow-2xl shadow-black/50 z-50 h-screen sm:h-auto sm:max-h-[600px] overflow-y-auto">
           {/* Header */}
-          <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 flex items-center justify-between z-10">
-            <h3 className="text-lg font-bold text-white">Filters & Sort</h3>
+          <div className="sticky top-0 bg-zinc-900/95 backdrop-blur-md border-b border-zinc-800/80 p-4 flex items-center justify-between z-10">
+            <h3 className="text-lg font-bold text-white">
+              {isViewMode ? "Filters" : "Filters & Sort"}
+            </h3>
             <div className="flex items-center gap-2">
               {activeFiltersCount > 0 && (
                 <button
@@ -150,34 +161,52 @@ export default function GameFilters() {
               )}
               <button
                 onClick={() => setIsOpen(false)}
-                className="sm:hidden p-1 hover:bg-gray-700 rounded-lg"
+                className="sm:hidden p-1 hover:bg-zinc-800 rounded-lg"
               >
-                <IoClose size={24} className="text-gray-400" />
+                <IoClose size={24} className="text-zinc-400" />
               </button>
             </div>
           </div>
 
-          {/* Sort */}
-          <div className="p-4 border-b border-gray-700">
-            <div className="flex items-center gap-2 mb-3">
-              <IoTrendingUpOutline size={18} className="text-blue-400" />
-              <h4 className="font-semibold text-white">Sort By</h4>
+          {/* Sort - Only show in search mode */}
+          {!isViewMode && (
+            <div className="p-4 border-b border-zinc-800/80">
+              <div className="flex items-center gap-2 mb-3">
+                <IoTrendingUpOutline size={18} className="text-blue-400" />
+                <h4 className="font-semibold text-white">Sort By</h4>
+              </div>
+              <select
+                value={currentOrdering}
+                onChange={(e) => updateFilters("ordering", e.target.value)}
+                className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700/50 rounded-lg text-white text-sm outline-none focus:border-blue-500 transition-colors"
+              >
+                {ORDERING_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
-            <select
-              value={currentOrdering}
-              onChange={(e) => updateFilters("ordering", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm outline-none focus:border-blue-500 transition-colors"
-            >
-              {ORDERING_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
+          )}
+
+          {/* ViewMode Sorting Notice */}
+          {isViewMode && (
+            <div className="p-4 border-b border-zinc-800/80">
+              <div className="flex items-center gap-2 p-3 bg-blue-900/20 border border-blue-800/30 rounded-lg">
+                <IoTrendingUpOutline
+                  size={16}
+                  className="text-blue-400 flex-shrink-0"
+                />
+                <p className="text-xs text-zinc-400">
+                  Sorting is fixed for this category. Use filters below to
+                  refine results.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Date Range */}
-          <div className="p-4 border-b border-gray-700">
+          <div className="p-4 border-b border-zinc-800/80">
             <div className="flex items-center gap-2 mb-3">
               <IoCalendarOutline size={18} className="text-blue-400" />
               <h4 className="font-semibold text-white">Release Date</h4>
@@ -185,30 +214,30 @@ export default function GameFilters() {
             <div className="space-y-2">
               <button
                 onClick={() => updateFilters("dates", "2024-01-01,2026-12-31")}
-                className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
+                className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   currentDates === "2024-01-01,2026-12-31"
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                 }`}
               >
                 Last 2 Years
               </button>
               <button
                 onClick={() => updateFilters("dates", "2023-01-01,2023-12-31")}
-                className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
+                className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   currentDates === "2023-01-01,2023-12-31"
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                 }`}
               >
                 2023
               </button>
               <button
                 onClick={() => updateFilters("dates", "2022-01-01,2022-12-31")}
-                className={`w-full px-3 py-2 rounded-lg text-sm transition-all ${
+                className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   currentDates === "2022-01-01,2022-12-31"
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                    : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                 }`}
               >
                 2022
@@ -216,7 +245,7 @@ export default function GameFilters() {
               {currentDates && (
                 <button
                   onClick={() => updateFilters("dates", "")}
-                  className="w-full px-3 py-2 rounded-lg text-sm bg-gray-700 text-gray-300 hover:bg-gray-600 transition-all"
+                  className="w-full px-3 py-2 rounded-lg text-sm font-medium bg-zinc-800 text-zinc-300 hover:bg-zinc-700 transition-all"
                 >
                   Clear Date Filter
                 </button>
@@ -225,7 +254,7 @@ export default function GameFilters() {
           </div>
 
           {/* Genres */}
-          <div className="p-4 border-b border-gray-700">
+          <div className="p-4 border-b border-zinc-800/80">
             <div className="flex items-center gap-2 mb-3">
               <MdCategory size={18} className="text-blue-400" />
               <h4 className="font-semibold text-white">Genres</h4>
@@ -235,10 +264,10 @@ export default function GameFilters() {
                 <button
                   key={genre.id}
                   onClick={() => toggleGenre(genre.id)}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     currentGenres.includes(genre.id)
                       ? "bg-blue-600 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                   }`}
                 >
                   {genre.name}
@@ -258,10 +287,10 @@ export default function GameFilters() {
                 <button
                   key={platform.id}
                   onClick={() => togglePlatform(platform.id)}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     currentPlatforms.includes(platform.id)
                       ? "bg-blue-600 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                   }`}
                 >
                   {platform.name}

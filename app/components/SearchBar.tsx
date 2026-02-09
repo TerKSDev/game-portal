@@ -16,10 +16,22 @@ export default function SearchBar() {
       params.delete("loadMore"); // Reset loadMore when searching
       params.delete("view"); // Clear view mode when searching
       params.set("viewType", "grid"); // Default to grid view
+      // Clear all filters when performing a new search
+      params.delete("genres");
+      params.delete("platforms");
+      params.delete("ordering");
+      params.delete("dates");
+      params.delete("stores");
     } else {
       params.delete("query");
       params.delete("loadMore");
       params.delete("viewType");
+      // Clear all filters when clearing search
+      params.delete("genres");
+      params.delete("platforms");
+      params.delete("ordering");
+      params.delete("dates");
+      params.delete("stores");
     }
 
     const targetPath = pathname === PATHS.STORE ? PATHS.STORE : PATHS.STORE;

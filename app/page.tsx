@@ -86,11 +86,8 @@ export default async function Home(props: {
                 </p>
               </div>
               <div className="flex gap-2">
-                {/* Filter Button */}
-                <button className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-900/50 border border-zinc-700/50 text-zinc-300 rounded-lg font-bold transition-all">
-                  <IoFunnel size={16} />
-                  Filter
-                </button>
+                {/* Filter Component */}
+                <GameFilters />
                 {/* View Type Switcher */}
                 <div className="flex gap-1 bg-zinc-900/50 border border-zinc-700/50 rounded-lg p-1">
                   <Link
@@ -279,36 +276,52 @@ export default async function Home(props: {
 
   // If in view mode, only fetch that category's data
   if (viewMode) {
+    // 在viewMode下应用筛选器（不包含ordering，因为每个view有自己的排序）
+    const viewModeFilters = {
+      genres: filters.genres,
+      platforms: filters.platforms,
+      dates: filters.dates,
+      stores: filters.stores,
+    };
+
     const viewConfigs = {
       trending: {
         title: "Trending Now",
         subtitle: "Popular games right now",
+        sortLabel: "Most Popular",
         gradient: "from-blue-400 to-purple-400",
         games: await GetGames(1, gamesLimit, "", {
+          ...viewModeFilters,
           ordering: "-added",
         }),
       },
       "top-rated": {
         title: "Top Rated Games",
         subtitle: "Highest rated by players",
+        sortLabel: "Highest Rating",
         gradient: "from-amber-400 to-orange-400",
         games: await GetGames(1, gamesLimit, "", {
+          ...viewModeFilters,
           ordering: "-rating",
         }),
       },
       "new-releases": {
         title: "New Releases",
         subtitle: "Latest games just released",
+        sortLabel: "Newest First",
         gradient: "from-green-400 to-emerald-400",
         games: await GetGames(1, gamesLimit, "", {
+          ...viewModeFilters,
           ordering: "-released",
         }),
       },
       "critics-choice": {
         title: "Critics' Choice",
         subtitle: "Highest Metacritic scores",
+        sortLabel: "Metacritic Score",
         gradient: "from-purple-400 to-pink-400",
         games: await GetGames(1, gamesLimit, "", {
+          ...viewModeFilters,
           ordering: "-metacritic",
         }),
       },
@@ -340,12 +353,15 @@ export default async function Home(props: {
                   <p className="text-zinc-500 mt-2 text-sm sm:text-base">
                     {config.subtitle}
                   </p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-xs text-zinc-600">Sorted by:</span>
+                    <span className="text-xs font-semibold text-zinc-400 bg-zinc-800/50 px-2 py-1 rounded-md border border-zinc-700/50">
+                      {config.sortLabel}
+                    </span>
+                  </div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-900/50 border border-zinc-700/50 text-zinc-300 rounded-lg font-bold transition-all">
-                    <IoFunnel size={16} />
-                    Filter
-                  </button>
+                  <GameFilters />
                   <div className="flex gap-1 bg-zinc-900/50 border border-zinc-700/50 rounded-lg p-1">
                     <Link
                       href={`/?view=${viewMode}&loadMore=${loadMore}&viewType=grid`}
@@ -566,26 +582,21 @@ export default async function Home(props: {
     <main className="flex flex-1 w-full min-h-screen justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex flex-col w-full max-w-7xl gap-6 sm:gap-8 pb-8">
         {/* Header Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
           <div className="relative">
-            <div className="relative">
-              <h1 className="text-3xl sm:text-5xl font-black bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Store Highlights
-              </h1>
-              <p className="text-zinc-500 mt-2 text-sm sm:text-base">
-                Discover amazing games curated just for you
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            <GameFilters />
+            <h1 className="text-3xl sm:text-5xl font-black bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Store Highlights
+            </h1>
+            <p className="text-zinc-500 mt-2 text-sm sm:text-base">
+              Discover amazing games curated just for you
+            </p>
           </div>
         </div>
 
         {/* API Error Notice */}
         {games.length === 0 && (
           <div className="bg-amber-900/20 border border-amber-700/50 rounded-xl p-6 flex items-start gap-4">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <IoGameController className="text-amber-400" size={32} />
             </div>
             <div>
